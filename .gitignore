@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / editor
+.idea/
+.vscode/
+.cursor/
+.phpstorm/
+*.sublime-*
+*.swp
+*.swo
+*~
+
+# PHP
+vendor/
+composer.lock
+.phpunit.result.cache
+
+# Logs & env
+*.log
+.env
+.env.local
+
+# Build / assets (if added later)
+node_modules/
+npm-debug.log*
