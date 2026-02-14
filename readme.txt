@@ -26,13 +26,13 @@ Requires WooCommerce 8.0+.
 1. Upload the plugin folder to `/wp-content/plugins/` or install via Plugins → Add New.
 2. Activate "WC Token Payments" (WooCommerce must be active).
 3. Go to WooCommerce → Settings → Token Payments to set the rate (e.g. 1 token = 1 unit of currency).
-4. Add shortcode `[wctk_buy_tokens]` to a page for customers to buy tokens.
+4. Add shortcode `[wctk_balance]` to show token balance, and/or `[wctk_buy_tokens]` for the top-up form.
 
 == Frequently Asked Questions ==
 
-= How do customers buy tokens? =
+= How do customers see balance and buy tokens? =
 
-Place the shortcode `[wctk_buy_tokens]` on any page. Logged-in users see a form to enter the number of tokens; submitting creates a WooCommerce order that they pay with the usual payment methods.
+Use `[wctk_balance]` to display token balance and `[wctk_buy_tokens]` for the top-up form (or both on one page). Logged-in users see the form; submitting creates a WooCommerce order that they pay with the usual payment methods.
 
 = Can they pay with tokens for top-up? =
 

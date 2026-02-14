@@ -27,6 +27,15 @@ define('WCTK_VERSION', '0.1.0');
 define('WCTK_TEXT_DOMAIN', 'wc-token-payments');
 define('WCTK_GITHUB_REPO', 'j-tap/wc-token-payments');
 
+define('WCTK_OPT_RATE', 'wctk_rate');
+define('WCTK_OPT_TOPUP_PRODUCT_ID', 'wctk_topup_product_id');
+define('WCTK_ORDER_META_IS_TOPUP', '_wctk_is_topup');
+define('WCTK_ORDER_META_TOKENS_QTY', '_wctk_tokens_qty');
+define('WCTK_ORDER_META_TOKENS_CREDITED', '_wctk_tokens_credited');
+define('WCTK_ORDER_META_TOKENS_SPENT', '_wctk_tokens_spent');
+define('WCTK_ORDER_META_TOKENS_SPENT_QTY', '_wctk_tokens_spent_qty');
+define('WCTK_NONCE_ACTION_BUY_TOKENS', 'wctk_buy_tokens');
+
 if (file_exists(WCTK_PATH . 'vendor/autoload.php')) {
     require_once WCTK_PATH . 'vendor/autoload.php';
     $wctk_updater = \YahnisElsts\PluginUpdateChecker\v5p6\PucFactory::buildUpdateChecker(
