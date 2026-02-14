@@ -175,3 +175,12 @@ msgstr ""
 
 msgid "Token top-up via Woo order"
 msgstr ""
+
+msgid "Processing..."
+msgstr ""
+
+msgid "Checkout form not found."
+msgstr ""
+
+msgid "Order #%1$s paid successfully with %2$d tokens."
+msgstr ""

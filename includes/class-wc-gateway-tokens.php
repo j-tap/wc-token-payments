@@ -136,7 +136,7 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
         if ($order->get_meta(WCTK_ORDER_META_TOKENS_SPENT) === 'yes') {
             return [
                 'result' => 'success',
-                'redirect' => $this->get_return_url($order),
+                'redirect' => self::get_success_redirect_url($order),
             ];
         }
 
@@ -145,7 +145,7 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             if ($order->get_meta(WCTK_ORDER_META_TOKENS_SPENT) === 'yes') {
                 return [
                     'result' => 'success',
-                    'redirect' => $this->get_return_url($order),
+                    'redirect' => self::get_success_redirect_url($order),
                 ];
             }
             wc_add_notice(__('Payment in progress, please try again.', WCTK_TEXT_DOMAIN), 'error');
@@ -158,7 +158,7 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
                 delete_transient($lock_key);
                 return [
                     'result' => 'success',
-                    'redirect' => $this->get_return_url($order),
+                    'redirect' => self::get_success_redirect_url($order),
                 ];
             }
 
@@ -187,9 +187,19 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             delete_transient($lock_key);
             WC()->cart->empty_cart();
 
+            wc_add_notice(
+                sprintf(
+                    /* translators: 1: order number, 2: tokens spent */
+                    __('Order #%1$s paid successfully with %2$d tokens.', WCTK_TEXT_DOMAIN),
+                    $order->get_order_number(),
+                    $needed_tokens
+                ),
+                'success'
+            );
+
             return [
-                'result' => 'success',
-                'redirect' => $this->get_return_url($order),
+                'result'   => 'success',
+                'redirect' => self::get_success_redirect_url($order),
             ];
         } catch (Throwable $e) {
             delete_transient($lock_key);
@@ -199,5 +209,50 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             );
             return ['result' => 'fail'];
         }
+    }
+
+    /**
+     * Determine the best redirect URL after successful token payment.
+     *
+     * Automatically adapts to the site configuration:
+     *  1. Standard WC order-received page (works on most sites)
+     *  2. My Account → View Order
+     *  3. My Account → Orders list
+     *
+     * Filterable via `wctk_token_payment_redirect_url`.
+     */
+    private static function get_success_redirect_url(WC_Order $order): string {
+        $home = untrailingslashit(home_url());
+
+        // 1. Standard WooCommerce thank-you page
+        $checkout_page_id = wc_get_page_id('checkout');
+        $url = ($checkout_page_id > 0 && get_post_status($checkout_page_id) === 'publish')
+            ? $order->get_checkout_order_received_url()
+            : '';
+
+        // 2. Fallback: view-order in My Account
+        if (self::is_home_url($url, $home)) {
+            $url = $order->get_view_order_url();
+        }
+
+        // 3. Last resort: orders list
+        if (self::is_home_url($url, $home)) {
+            $url = wc_get_account_endpoint_url('orders');
+        }
+
+        /**
+         * Filter redirect URL after successful token payment.
+         *
+         * @param string   $url   Redirect URL.
+         * @param WC_Order $order The order that was paid.
+         */
+        return (string) apply_filters('wctk_token_payment_redirect_url', $url, $order);
+    }
+
+    /** Check if URL is empty or points to the homepage. */
+    private static function is_home_url(string $url, string $home): bool {
+        if (empty($url)) return true;
+        $clean = untrailingslashit(strtok($url, '?'));
+        return $clean === $home;
     }
 }

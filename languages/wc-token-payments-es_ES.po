@@ -177,3 +177,12 @@ msgstr "Tokens necesarios para este pedido: %d"
 
 msgid "Token top-up via Woo order"
 msgstr "Recarga de tokens mediante pedido WooCommerce"
+
+msgid "Processing..."
+msgstr "Procesando..."
+
+msgid "Checkout form not found."
+msgstr "Formulario de pago no encontrado."
+
+msgid "Order #%1$s paid successfully with %2$d tokens."
+msgstr "Pedido #%1$s pagado con éxito con %2$d tokens."

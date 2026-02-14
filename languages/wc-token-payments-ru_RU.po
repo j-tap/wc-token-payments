@@ -177,3 +177,12 @@ msgstr "Нужно токенов для этого заказа: %d"
 
 msgid "Token top-up via Woo order"
 msgstr "Пополнение токенов через заказ WooCommerce"
+
+msgid "Processing..."
+msgstr "Обработка..."
+
+msgid "Checkout form not found."
+msgstr "Форма оформления заказа не найдена."
+
+msgid "Order #%1$s paid successfully with %2$d tokens."
+msgstr "Заказ #%1$s успешно оплачен токенами: %2$d."
