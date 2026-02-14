@@ -302,8 +302,24 @@ final class WCTK_Shortcode_Buy {
         // Never restore during gateway callbacks (e.g. ?wc-api=...)
         if (!empty($_GET['wc-api'])) return;
 
-        // Don't restore while payment is in progress
-        if (WC()->session && WC()->session->get('wctk_topup_pending')) return;
+        if (WC()->session && WC()->session->get('wctk_topup_pending')) {
+            // Check if the top-up product is still in the cart.
+            // WooCommerce empties the cart after order placement, so if
+            // the cart no longer has our item the payment flow is done.
+            $cart_has_topup = false;
+            if (WC()->cart) {
+                foreach (WC()->cart->get_cart() as $item) {
+                    if (!empty($item['wctk_topup'])) {
+                        $cart_has_topup = true;
+                        break;
+                    }
+                }
+            }
+
+            if ($cart_has_topup) return;
+
+            WC()->session->set('wctk_topup_pending', false);
+        }
 
         $key   = self::saved_cart_key();
         $saved = get_transient($key);

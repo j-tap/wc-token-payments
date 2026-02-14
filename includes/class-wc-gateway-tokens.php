@@ -56,9 +56,16 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             return ['result' => 'fail'];
         }
 
-        $rate = WCTK_Plugin::get_rate();
+        $rate  = WCTK_Plugin::get_rate();
         $total = (float) $order->get_total();
-        $needed_tokens = (int) ceil($total / $rate);
+
+        // Convert order total to default currency before token calculation
+        $total_default = WCTK_Shortcode_Buy::convert_to_default_currency(
+            $total,
+            $order->get_currency()
+        );
+
+        $needed_tokens = (int) ceil($total_default / $rate);
         $balance = WCTK_Balance::get($user_id);
 
         if ($needed_tokens <= 0) {
@@ -109,10 +116,12 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             }
 
             WCTK_Balance::change($user_id, -$needed_tokens, WCTK_Ledger::KIND_SPEND, (int) $order_id, __('Paid with tokens', WCTK_TEXT_DOMAIN), [
-                'order_total' => $total,
-                'rate' => $rate,
-                'needed_tokens' => $needed_tokens,
-                'currency' => $order->get_currency(),
+                'order_total'          => $total,
+                'order_total_default'  => $total_default,
+                'rate'                 => $rate,
+                'needed_tokens'        => $needed_tokens,
+                'currency'             => $order->get_currency(),
+                'default_currency'     => WCTK_Shortcode_Buy::get_default_currency(),
             ]);
 
             $order->update_meta_data(WCTK_ORDER_META_TOKENS_SPENT, 'yes');
