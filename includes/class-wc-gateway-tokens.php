@@ -212,40 +212,46 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
     }
 
     /**
-     * Determine the best redirect URL after successful token payment.
+     * Redirect URL after successful token payment.
      *
-     * Automatically adapts to the site configuration:
-     *  1. Standard WC order-received page (works on most sites)
-     *  2. My Account → View Order
-     *  3. My Account → Orders list
+     * Priority:
+     *  1. Plugin option "Thank you page (token payment)" if set (same as main payment flow)
+     *  2. Standard WC order-received page
+     *  3. My Account → View Order
+     *  4. My Account → Orders list
      *
      * Filterable via `wctk_token_payment_redirect_url`.
      */
     private static function get_success_redirect_url(WC_Order $order): string {
         $home = untrailingslashit(home_url());
 
-        // 1. Standard WooCommerce thank-you page
+        // 1. Custom thank-you path/URL from settings (e.g. /thanks/?status=successful)
+        $thankyou = trim((string) get_option(WCTK_OPT_TOKEN_PAYMENT_THANKYOU_URL, ''));
+        if ($thankyou !== '') {
+            $thankyou = str_replace('{order_id}', (string) $order->get_id(), $thankyou);
+            $url = WCTK_Plugin::resolve_redirect_url($thankyou);
+            if ($url !== '' && !self::is_home_url($url, $home)) {
+                return (string) apply_filters('wctk_token_payment_redirect_url', $url, $order);
+            }
+        }
+
+        // 2. Standard WooCommerce order-received page
         $checkout_page_id = wc_get_page_id('checkout');
         $url = ($checkout_page_id > 0 && get_post_status($checkout_page_id) === 'publish')
             ? $order->get_checkout_order_received_url()
             : '';
 
-        // 2. Fallback: view-order in My Account
+        // 3. Fallback: view-order in My Account
         if (self::is_home_url($url, $home)) {
             $url = $order->get_view_order_url();
         }
 
-        // 3. Last resort: orders list
+        // 4. Last resort: orders list
         if (self::is_home_url($url, $home)) {
             $url = wc_get_account_endpoint_url('orders');
         }
 
-        /**
-         * Filter redirect URL after successful token payment.
-         *
-         * @param string   $url   Redirect URL.
-         * @param WC_Order $order The order that was paid.
-         */
+        /** @var string $url */
         return (string) apply_filters('wctk_token_payment_redirect_url', $url, $order);
     }
 

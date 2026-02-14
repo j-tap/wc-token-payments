@@ -86,6 +86,9 @@ msgstr ""
 msgid "Leave empty to use the default WooCommerce checkout (%s). Customer is redirected here to enter billing details, select payment method and pay."
 msgstr ""
 
+msgid "Path (e.g. /checkout/) or full URL. Leave empty to use the default WooCommerce checkout. Customer is redirected here to enter billing details and pay."
+msgstr ""
+
 msgid "Could not add top-up to cart."
 msgstr ""
 
@@ -183,4 +186,13 @@ msgid "Checkout form not found."
 msgstr ""
 
 msgid "Order #%1$s paid successfully with %2$d tokens."
+msgstr ""
+
+msgid "Thank you page (token payment)"
+msgstr ""
+
+msgid "Redirect after successful payment with tokens. Use the same URL as your main payment method (e.g. /thanks/). You can use {order_id} in the URL."
+msgstr ""
+
+msgid "Path (e.g. /thanks/?status=successful) or full URL. Same page as after normal payment. You can use {order_id} in the path."
 msgstr ""

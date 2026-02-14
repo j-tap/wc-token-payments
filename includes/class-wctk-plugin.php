@@ -69,4 +69,17 @@ final class WCTK_Plugin {
         $rate = (float) get_option(WCTK_OPT_RATE, '1');
         return $rate > 0 ? $rate : 1.0;
     }
+
+    /**
+     * Turn a path (e.g. /checkout/) or full URL into a full URL.
+     */
+    public static function resolve_redirect_url(string $value): string {
+        $value = trim($value);
+        if ($value === '') return '';
+        if (strpos($value, 'http://') === 0 || strpos($value, 'https://') === 0) {
+            return $value;
+        }
+        $path = (substr($value, 0, 1) === '/') ? $value : '/' . $value;
+        return home_url($path);
+    }
 }

@@ -186,3 +186,15 @@ msgstr "Formulario de pago no encontrado."
 
 msgid "Order #%1$s paid successfully with %2$d tokens."
 msgstr "Pedido #%1$s pagado con éxito con %2$d tokens."
+
+msgid "Thank you page (token payment)"
+msgstr "Página de agradecimiento (pago con tokens)"
+
+msgid "Redirect after successful payment with tokens. Use the same URL as your main payment method (e.g. /thanks/). You can use {order_id} in the URL."
+msgstr "Redirigir tras el pago con tokens. Use la misma URL que su método de pago principal (ej. /thanks/). Puede usar {order_id} en la URL."
+
+msgid "Path (e.g. /checkout/) or full URL. Leave empty to use the default WooCommerce checkout. Customer is redirected here to enter billing details and pay."
+msgstr "Ruta (ej. /checkout/) o URL completa. Deje vacío para usar la página de pago por defecto. El cliente se redirige aquí para introducir datos y pagar."
+
+msgid "Path (e.g. /thanks/?status=successful) or full URL. Same page as after normal payment. You can use {order_id} in the path."
+msgstr "Ruta (ej. /thanks/?status=successful) o URL completa. La misma página que tras el pago normal. Puede usar {order_id} en la ruta."

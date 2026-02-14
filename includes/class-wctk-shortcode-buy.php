@@ -95,7 +95,7 @@ final class WCTK_Shortcode_Buy {
      */
     public static function get_topup_checkout_url(): string {
         $custom = trim((string) get_option(WCTK_OPT_TOPUP_REDIRECT_URL, ''));
-        return $custom !== '' ? $custom : wc_get_checkout_url();
+        return $custom !== '' ? WCTK_Plugin::resolve_redirect_url($custom) : wc_get_checkout_url();
     }
 
     // ──────────────────────────────────────────────

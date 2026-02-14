@@ -7,6 +7,16 @@ final class WCTK_Admin {
         add_action('admin_init', [__CLASS__, 'register_settings']);
     }
 
+    /** Accept path (/checkout/) or full URL. */
+    public static function sanitize_path_or_url($value): string {
+        $value = trim(sanitize_text_field((string) $value));
+        if ($value === '') return '';
+        if (strpos($value, 'http://') === 0 || strpos($value, 'https://') === 0) {
+            return esc_url_raw($value);
+        }
+        return (substr($value, 0, 1) === '/') ? $value : '/' . $value;
+    }
+
     public static function menu(): void {
         add_submenu_page(
             'woocommerce',
@@ -38,7 +48,12 @@ final class WCTK_Admin {
 
         register_setting('wctk_settings', WCTK_OPT_TOPUP_REDIRECT_URL, [
             'type'              => 'string',
-            'sanitize_callback' => 'esc_url_raw',
+            'sanitize_callback' => [__CLASS__, 'sanitize_path_or_url'],
+        ]);
+
+        register_setting('wctk_settings', WCTK_OPT_TOKEN_PAYMENT_THANKYOU_URL, [
+            'type'              => 'string',
+            'sanitize_callback' => [__CLASS__, 'sanitize_path_or_url'],
         ]);
     }
 
@@ -97,13 +112,15 @@ final class WCTK_Admin {
         echo '</td></tr>';
 
         $topup_redirect_url = get_option(WCTK_OPT_TOPUP_REDIRECT_URL, '');
-        $default_checkout_url = function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : '';
         echo '<tr class="wctk-settings-form__row wctk-settings-form__row--redirect"><th scope="row">' . esc_html__('Top-up payment page', WCTK_TEXT_DOMAIN) . '</th><td>';
-        echo '<input type="url" name="' . esc_attr(WCTK_OPT_TOPUP_REDIRECT_URL) . '" value="' . esc_attr($topup_redirect_url) . '" class="wctk-settings-form__input regular-text" placeholder="' . esc_attr($default_checkout_url) . '" />';
-        echo '<p class="wctk-settings-form__hint description">' . esc_html(sprintf(
-            __('Leave empty to use the default WooCommerce checkout (%s). Customer is redirected here to enter billing details, select payment method and pay.', WCTK_TEXT_DOMAIN),
-            $default_checkout_url
-        )) . '</p>';
+        echo '<input type="text" name="' . esc_attr(WCTK_OPT_TOPUP_REDIRECT_URL) . '" value="' . esc_attr($topup_redirect_url) . '" class="wctk-settings-form__input regular-text" placeholder="/checkout/" />';
+        echo '<p class="wctk-settings-form__hint description">' . esc_html__('Path (e.g. /checkout/) or full URL. Leave empty to use the default WooCommerce checkout. Customer is redirected here to enter billing details and pay.', WCTK_TEXT_DOMAIN) . '</p>';
+        echo '</td></tr>';
+
+        $thankyou_url = get_option(WCTK_OPT_TOKEN_PAYMENT_THANKYOU_URL, '');
+        echo '<tr class="wctk-settings-form__row wctk-settings-form__row--thankyou"><th scope="row">' . esc_html__('Thank you page (token payment)', WCTK_TEXT_DOMAIN) . '</th><td>';
+        echo '<input type="text" name="' . esc_attr(WCTK_OPT_TOKEN_PAYMENT_THANKYOU_URL) . '" value="' . esc_attr($thankyou_url) . '" class="wctk-settings-form__input regular-text" placeholder="/thanks/?status=successful" />';
+        echo '<p class="wctk-settings-form__hint description">' . esc_html__('Path (e.g. /thanks/?status=successful) or full URL. Same page as after normal payment. You can use {order_id} in the path.', WCTK_TEXT_DOMAIN) . '</p>';
         echo '</td></tr>';
 
         echo '</table>';

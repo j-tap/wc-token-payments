@@ -145,12 +145,10 @@ final class WCTK_Gateway_Tokens {
             $enough = $balance >= $needed;
         }
         ?>
-        <div id="wctk-checkout-pay" class="wctk-checkout-pay" style="
-            border: 2px solid <?php echo $enough ? '#4caf50' : '#ccc'; ?>;
+        <div id="wctk-checkout-pay" class="wctk-checkout-pay <?php echo $enough ? 'wctk-checkout-pay--enough' : 'wctk-checkout-pay--insufficient'; ?>" style="
             border-radius: 8px;
             padding: 16px 20px;
             margin: 16px 0 20px;
-            background: <?php echo $enough ? '#f0faf0' : '#fafafa'; ?>;
         ">
             <h3 class="wctk-checkout-pay__title" style="margin: 0 0 10px; font-size: 1.1em;">
                 <?php echo esc_html__('Pay with Tokens', WCTK_TEXT_DOMAIN); ?>
@@ -171,7 +169,7 @@ final class WCTK_Gateway_Tokens {
             <?php endif; ?>
 
             <?php if (!$enough && $needed > 0): ?>
-                <p class="wctk-checkout-pay__warning" style="color: #b32d2e; margin: 8px 0 4px;">
+                <p class="wctk-checkout-pay__warning" style="margin: 8px 0 4px;">
                     <?php echo esc_html(sprintf(
                         __('Not enough tokens. Need %1$d, you have %2$d.', WCTK_TEXT_DOMAIN),
                         $needed,
@@ -184,16 +182,7 @@ final class WCTK_Gateway_Tokens {
                 <button type="button"
                         id="wctk-pay-tokens-btn"
                         class="wctk-checkout-pay__button button alt"
-                        style="
-                            margin-top: 10px;
-                            padding: 10px 24px;
-                            font-size: 1em;
-                            background: #4caf50;
-                            color: #fff;
-                            border: none;
-                            border-radius: 4px;
-                            cursor: pointer;
-                        ">
+                        style="margin-top: 10px; padding: 10px 24px; font-size: 1em;">
                     <?php echo esc_html__('Pay with Tokens', WCTK_TEXT_DOMAIN); ?>
                 </button>
             <?php endif; ?>
