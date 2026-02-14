@@ -3,7 +3,7 @@
  * Plugin Name: WC Token Payments
  * Plugin URI: https://github.com/j-tap/wc-token-payments
  * Description: Token wallet: top-up with any currency (WooCommerce payment methods), then pay for orders with tokens.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Author: j-tap
  * Author URI: https://github.com/j-tap
  * License: GPL v2 or later
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 define('WCTK_FILE', __FILE__);
 define('WCTK_PATH', plugin_dir_path(__FILE__));
 define('WCTK_URL', plugin_dir_url(__FILE__));
-define('WCTK_VERSION', '0.1.0');
+define('WCTK_VERSION', '0.1.1');
 define('WCTK_TEXT_DOMAIN', 'wc-token-payments');
 define('WCTK_GITHUB_REPO', 'j-tap/wc-token-payments');
 define('WCTK_OPT_RATE', 'wctk_rate');
