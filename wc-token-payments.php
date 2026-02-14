@@ -3,7 +3,7 @@
  * Plugin Name: WC Token Payments
  * Plugin URI: https://github.com/j-tap/wc-token-payments
  * Description: Token wallet: top-up with any currency (WooCommerce payment methods), then pay for orders with tokens.
- * Version: 0.1.26
+ * Version: 0.1.27
  * Author: j-tap
  * Author URI: https://github.com/j-tap
  * License: GPL v2 or later
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 define('WCTK_FILE', __FILE__);
 define('WCTK_PATH', plugin_dir_path(__FILE__));
 define('WCTK_URL', plugin_dir_url(__FILE__));
-define('WCTK_VERSION', '0.1.26');
+define('WCTK_VERSION', '0.1.27');
 define('WCTK_TEXT_DOMAIN', 'wc-token-payments');
 define('WCTK_GITHUB_REPO', 'j-tap/wc-token-payments');
 define('WCTK_OPT_RATE', 'wctk_rate');
@@ -36,6 +36,7 @@ define('WCTK_ORDER_META_TOKENS_SPENT_QTY', '_wctk_tokens_spent_qty');
 define('WCTK_NONCE_ACTION_BUY_TOKENS', 'wctk_buy_tokens');
 define('WCTK_OPT_TOPUP_REDIRECT_URL', 'wctk_topup_redirect_url');
 define('WCTK_OPT_TOKEN_PAYMENT_THANKYOU_URL', 'wctk_token_payment_thankyou_url');
+define('WCTK_OPT_TOPUP_PAGE_PATH', 'wctk_topup_page_path');
 
 if (file_exists(WCTK_PATH . 'vendor/autoload.php')) {
     require_once WCTK_PATH . 'vendor/autoload.php';
