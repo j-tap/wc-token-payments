@@ -59,6 +59,10 @@ final class WCTK_Plugin {
         // Начисление токенов после оплаты top-up заказа
         add_action('woocommerce_order_status_completed', ['WCTK_Shortcode_Buy', 'handle_paid_order'], 10, 1);
         add_action('woocommerce_order_status_processing', ['WCTK_Shortcode_Buy', 'handle_paid_order'], 10, 1);
+
+        // Restore original cart if top-up order is cancelled or failed
+        add_action('woocommerce_order_status_cancelled', ['WCTK_Shortcode_Buy', 'handle_topup_order_cancelled'], 10, 1);
+        add_action('woocommerce_order_status_failed', ['WCTK_Shortcode_Buy', 'handle_topup_order_cancelled'], 10, 1);
     }
 
     public static function get_rate(): float {

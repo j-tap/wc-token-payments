@@ -208,6 +208,7 @@ final class WCTK_Shortcode_Buy {
 
         // Save current cart so we can restore it after payment
         self::save_cart();
+        WC()->session->set('wctk_topup_pending', true);
 
         // Replace cart with the top-up product (custom price via woocommerce_before_calculate_totals)
         WC()->cart->empty_cart();
@@ -265,7 +266,18 @@ final class WCTK_Shortcode_Buy {
         $user_id = (int) $order->get_customer_id();
         if ($user_id <= 0 || $user_id !== get_current_user_id()) return;
 
-        $key   = 'wctk_saved_cart_' . $user_id;
+        self::finish_topup_and_restore_cart();
+    }
+
+    /**
+     * Clear the topup-pending flag and restore the original cart from transient.
+     */
+    private static function finish_topup_and_restore_cart(): void {
+        if (WC()->session) {
+            WC()->session->set('wctk_topup_pending', false);
+        }
+
+        $key   = self::saved_cart_key();
         $saved = get_transient($key);
         if ($saved !== false && !empty($saved)) {
             WC()->session->set('cart', $saved);
@@ -275,9 +287,19 @@ final class WCTK_Shortcode_Buy {
 
     /**
      * If user navigates away from checkout, restore their original cart.
+     * Skips restoration while the top-up payment is still in progress.
      */
     public static function maybe_restore_saved_cart(): void {
-        if (!is_user_logged_in() || is_checkout()) return;
+        if (!is_user_logged_in()) return;
+
+        // Never restore on checkout / order-pay / order-received pages
+        if (function_exists('is_checkout') && is_checkout()) return;
+
+        // Never restore during gateway callbacks (e.g. ?wc-api=...)
+        if (!empty($_GET['wc-api'])) return;
+
+        // Don't restore while payment is in progress
+        if (WC()->session && WC()->session->get('wctk_topup_pending')) return;
 
         $key   = self::saved_cart_key();
         $saved = get_transient($key);
@@ -501,6 +523,22 @@ final class WCTK_Shortcode_Buy {
         } catch (Throwable $e) {
             $order->add_order_note('Token credit failed: ' . $e->getMessage());
             $order->save();
+        }
+    }
+
+    /**
+     * When a top-up order is cancelled or fails, clear the pending flag
+     * so the user's original cart can be restored on next page load.
+     */
+    public static function handle_topup_order_cancelled(int $order_id): void {
+        $order = wc_get_order($order_id);
+        if (!$order || $order->get_meta(WCTK_ORDER_META_IS_TOPUP) !== 'yes') return;
+
+        $user_id = (int) $order->get_customer_id();
+        if ($user_id <= 0) return;
+
+        if (WC()->session && (int) WC()->session->get_customer_id() === $user_id) {
+            WC()->session->set('wctk_topup_pending', false);
         }
     }
 }
