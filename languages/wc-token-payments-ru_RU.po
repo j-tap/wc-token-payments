@@ -148,8 +148,20 @@ msgstr "Войдите, чтобы купить токены."
 msgid "How many tokens to buy:"
 msgstr "Сколько токенов купить:"
 
+msgid "Amount in %s:"
+msgstr "Сумма в %s:"
+
+msgid "You will receive:"
+msgstr "Вы получите:"
+
 msgid "Rate: 1 token = %1$s %2$s"
 msgstr "Курс: 1 токен = %1$s %2$s"
+
+msgid "Invalid amount."
+msgstr "Некорректная сумма."
+
+msgid "Amount is too low to receive at least 1 token."
+msgstr "Сумма слишком мала для получения хотя бы 1 токена."
 
 msgid "Create order"
 msgstr "Создать заказ"

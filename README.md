@@ -33,7 +33,7 @@ WordPress plugin: token wallet for WooCommerce. Customers top up balance with mo
 ### Shortcodes
 
 - **`[wctk_balance]`** — outputs the current user’s token balance only (guests see a message to log in).
-- **`[wctk_buy_tokens]`** — outputs the top-up form: “How many tokens to buy” field and “Create order” button. No custom styling (neutral markup).
+- **`[wctk_buy_tokens]`** — outputs the top-up form: user enters an **amount in the selected currency** (works with WooCommerce Multi Currency); the line “You will receive: X tokens” updates as they type. Order is created for that amount; tokens are calculated by converting to default currency and dividing by the token rate (rounded down).
 
 You can use both on one page: `[wctk_balance]` and `[wctk_buy_tokens]`.
 
@@ -51,11 +51,17 @@ Submitting the form creates a WooCommerce top-up order; the customer pays at che
 
 **Top-up form**
 
-- **`WCTK_Shortcode_Buy::render_topup_form(): string`** — returns the top-up form HTML (quantity field, rate note, “Create order” button). Use `echo WCTK_Shortcode_Buy::render_topup_form();` to output it anywhere.
+- **`WCTK_Shortcode_Buy::render_topup_form(): string`** — returns the top-up form HTML. The user enters an **amount in the selected currency** (supports WooCommerce Multi Currency); below, “You will receive: X tokens” updates live. Tokens are computed by converting the amount to the store’s default currency, then dividing by the token rate (rounded down). Use `echo WCTK_Shortcode_Buy::render_topup_form();` to output it anywhere.
 
 **Create top-up order programmatically**
 
-- **`WCTK_Shortcode_Buy::create_topup_order(int $user_id, int $tokens_qty): WC_Order|WP_Error`** — creates a top-up order; returns the order or `WP_Error`. Redirect to payment is up to the caller, e.g. `wp_safe_redirect($order->get_checkout_payment_url()); exit;`
+- **`WCTK_Shortcode_Buy::create_topup_order(int $user_id, int $tokens_qty, float $order_total = 0, string $order_currency = ''): WC_Order|WP_Error`** — creates a top-up order. If `$order_total` and `$order_currency` are set, the order is created for that amount in that currency; otherwise total = `tokens_qty * rate` in default currency. Redirect to payment is up to the caller, e.g. `wp_safe_redirect($order->get_checkout_payment_url()); exit;`
+
+**Currency conversion (for multi-currency)**
+
+- **`WCTK_Shortcode_Buy::get_current_currency(): string`** — current currency code (filter: `wctk_current_currency`).
+- **`WCTK_Shortcode_Buy::get_conversion_rate_to_default(string $from_currency): float`** — multiplier so that `amount_in_default = amount * rate`. Multi-currency plugins hook `wctk_convert_rate_to_default` (args: `$rate`, `$from_currency`, `$default_currency`) and return the rate.
+- **`WCTK_Shortcode_Buy::tokens_from_default_currency_amount(float $amount_default): int`** — universal helper: tokens for an amount in default currency (rounded down).
 
 ### Pay with Tokens
 

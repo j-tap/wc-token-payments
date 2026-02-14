@@ -146,7 +146,19 @@ msgstr ""
 msgid "How many tokens to buy:"
 msgstr ""
 
+msgid "Amount in %s:"
+msgstr ""
+
+msgid "You will receive:"
+msgstr ""
+
 msgid "Rate: 1 token = %1$s %2$s"
+msgstr ""
+
+msgid "Invalid amount."
+msgstr ""
+
+msgid "Amount is too low to receive at least 1 token."
 msgstr ""
 
 msgid "Create order"

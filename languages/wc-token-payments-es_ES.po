@@ -148,8 +148,20 @@ msgstr "Inicia sesión para comprar tokens."
 msgid "How many tokens to buy:"
 msgstr "Cuántos tokens comprar:"
 
+msgid "Amount in %s:"
+msgstr "Importe en %s:"
+
+msgid "You will receive:"
+msgstr "Recibirás:"
+
 msgid "Rate: 1 token = %1$s %2$s"
 msgstr "Tasa: 1 token = %1$s %2$s"
+
+msgid "Invalid amount."
+msgstr "Importe no válido."
+
+msgid "Amount is too low to receive at least 1 token."
+msgstr "El importe es demasiado bajo para recibir al menos 1 token."
 
 msgid "Create order"
 msgstr "Crear pedido"
