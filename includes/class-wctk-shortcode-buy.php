@@ -15,6 +15,10 @@ final class WCTK_Shortcode_Buy {
         // Multi-currency auto-detection (VillaTheme WooCommerce Multi Currency)
         add_filter('wctk_convert_rate_to_default', [__CLASS__, 'auto_detect_conversion_rate'], 5, 3);
 
+        // Prevent multi-currency plugins from re-converting the top-up product price
+        add_filter('woocommerce_product_get_price', [__CLASS__, 'lock_topup_product_price'], 9999, 2);
+        add_filter('woocommerce_product_get_regular_price', [__CLASS__, 'lock_topup_product_price'], 9999, 2);
+
         // Cart-based checkout hooks (priority 99 — run AFTER multi-currency plugins)
         add_action('woocommerce_before_calculate_totals', [__CLASS__, 'set_topup_cart_item_price'], 99);
         add_filter('woocommerce_get_item_data', [__CLASS__, 'display_topup_cart_item_data'], 10, 2);
@@ -354,6 +358,25 @@ final class WCTK_Shortcode_Buy {
             return true;
         }
         return $purchasable;
+    }
+
+    /**
+     * Prevent multi-currency plugins (VillaTheme, Aelia, etc.) from converting
+     * the top-up product price via woocommerce_product_get_price filter.
+     *
+     * We set the exact user-entered amount via set_price() in the cart hook;
+     * without this guard the MC plugin would convert it again (double-conversion).
+     *
+     * Priority 9999 — runs last, overrides any conversion applied earlier in the chain.
+     */
+    public static function lock_topup_product_price($price, $product) {
+        if (is_admin() && !wp_doing_ajax()) return $price;
+
+        $topup_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
+        if ($topup_id > 0 && (int) $product->get_id() === $topup_id) {
+            return $product->get_price('edit');
+        }
+        return $price;
     }
 
     /**
