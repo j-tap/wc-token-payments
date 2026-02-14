@@ -25,6 +25,23 @@ define('WCTK_PATH', plugin_dir_path(__FILE__));
 define('WCTK_URL', plugin_dir_url(__FILE__));
 define('WCTK_VERSION', '0.1.0');
 define('WCTK_TEXT_DOMAIN', 'wc-token-payments');
+define('WCTK_GITHUB_REPO', 'j-tap/wc-token-payments');
+
+if (file_exists(WCTK_PATH . 'vendor/autoload.php')) {
+    require_once WCTK_PATH . 'vendor/autoload.php';
+    $wctk_updater = \YahnisElsts\PluginUpdateChecker\v5p6\PucFactory::buildUpdateChecker(
+        'https://github.com/' . WCTK_GITHUB_REPO,
+        __FILE__,
+        'wc-token-payments'
+    );
+    $wctk_updater->getVcsApi()->enableReleaseAssets();
+}
+
+add_action('before_woocommerce_init', function (): void {
+    if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+    }
+});
 
 require_once WCTK_PATH . 'includes/class-wctk-plugin.php';
 
