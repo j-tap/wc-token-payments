@@ -172,5 +172,8 @@ msgstr "Проверка безопасности не пройдена. Поп�
 msgid "Token top-up"
 msgstr "Пополнение токенов"
 
+msgid "Tokens needed for this order: %d"
+msgstr "Нужно токенов для этого заказа: %d"
+
 msgid "Token top-up via Woo order"
 msgstr "Пополнение токенов через заказ WooCommerce"

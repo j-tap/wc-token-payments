@@ -172,5 +172,8 @@ msgstr "Comprobación de seguridad fallida. Inténtalo de nuevo."
 msgid "Token top-up"
 msgstr "Recarga de tokens"
 
+msgid "Tokens needed for this order: %d"
+msgstr "Tokens necesarios para este pedido: %d"
+
 msgid "Token top-up via Woo order"
 msgstr "Recarga de tokens mediante pedido WooCommerce"

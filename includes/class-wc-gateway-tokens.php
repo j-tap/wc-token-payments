@@ -9,17 +9,64 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
     const SPEND_LOCK_TTL = 45;
 
     public function __construct() {
-        $this->id = 'wctk_tokens';
-        $this->method_title = __('Pay with Tokens', WCTK_TEXT_DOMAIN);
+        $this->id                 = 'wctk_tokens';
+        $this->method_title       = __('Pay with Tokens', WCTK_TEXT_DOMAIN);
         $this->method_description = __('Pay using token balance.', WCTK_TEXT_DOMAIN);
-        $this->has_fields = false;
+        $this->has_fields         = true;
 
         $this->init_form_fields();
         $this->init_settings();
 
-        $this->title = $this->get_option('title', __('Pay with Tokens', WCTK_TEXT_DOMAIN));
+        $this->enabled = $this->get_option('enabled');
+        $this->title   = $this->get_option('title', __('Pay with Tokens', WCTK_TEXT_DOMAIN));
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+    }
+
+    public function payment_fields(): void {
+        if (!is_user_logged_in()) return;
+
+        $user_id = get_current_user_id();
+        $balance = WCTK_Balance::get($user_id);
+
+        echo '<div class="wctk-gateway-info">';
+        echo '<p class="wctk-gateway-info__balance">';
+        echo esc_html__('Token balance:', WCTK_TEXT_DOMAIN) . ' ';
+        echo '<strong class="wctk-gateway-info__balance-value">' . esc_html((string) $balance) . '</strong>';
+        echo '</p>';
+
+        if (WC()->cart) {
+            $total   = (float) WC()->cart->get_total('edit');
+            $rate    = WCTK_Plugin::get_rate();
+            $currency = get_woocommerce_currency();
+            $default  = get_option('woocommerce_currency', 'EUR');
+
+            if ($currency !== $default) {
+                $total = WCTK_Shortcode_Buy::convert_to_default_currency($total, $currency);
+            }
+
+            $needed = $rate > 0 ? (int) ceil($total / $rate) : 0;
+
+            echo '<p class="wctk-gateway-info__cost">';
+            echo esc_html(sprintf(
+                /* translators: %d = tokens needed for this order */
+                __('Tokens needed for this order: %d', WCTK_TEXT_DOMAIN),
+                $needed
+            ));
+            echo '</p>';
+
+            if ($balance < $needed) {
+                echo '<p class="wctk-gateway-info__warning" style="color:#b32d2e;">';
+                echo esc_html(sprintf(
+                    __('Not enough tokens. Need %1$d, you have %2$d.', WCTK_TEXT_DOMAIN),
+                    $needed,
+                    $balance
+                ));
+                echo '</p>';
+            }
+        }
+
+        echo '</div>';
     }
 
     public function init_form_fields(): void {

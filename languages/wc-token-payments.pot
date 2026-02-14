@@ -170,5 +170,8 @@ msgstr ""
 msgid "Token top-up"
 msgstr ""
 
+msgid "Tokens needed for this order: %d"
+msgstr ""
+
 msgid "Token top-up via Woo order"
 msgstr ""
