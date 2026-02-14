@@ -58,6 +58,21 @@ msgstr "Error:"
 msgid "Token Payments (MVP)"
 msgstr "Pago con tokens (MVP)"
 
+msgid "Configure the token rate and manage balances."
+msgstr "Configura el tipo de cambio de tokens y gestiona los saldos."
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Token rate and top-up product."
+msgstr "Tipo de tokens y producto de recarga."
+
+msgid "Add or subtract tokens for a user."
+msgstr "Añadir o restar tokens a un usuario."
+
+msgid "Optional note"
+msgstr "Nota opcional"
+
 msgid "Rate (base currency per 1 token)"
 msgstr "Tasa (moneda por 1 token)"
 

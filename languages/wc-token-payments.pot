@@ -56,6 +56,21 @@ msgstr ""
 msgid "Token Payments (MVP)"
 msgstr ""
 
+msgid "Configure the token rate and manage balances."
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Token rate and top-up product."
+msgstr ""
+
+msgid "Add or subtract tokens for a user."
+msgstr ""
+
+msgid "Optional note"
+msgstr ""
+
 msgid "Rate (base currency per 1 token)"
 msgstr ""
 

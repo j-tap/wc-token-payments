@@ -58,6 +58,21 @@ msgstr "Ошибка:"
 msgid "Token Payments (MVP)"
 msgstr "Платёж токенами (MVP)"
 
+msgid "Configure the token rate and manage balances."
+msgstr "Настройка курса токенов и управление балансами."
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Token rate and top-up product."
+msgstr "Курс токенов и товар пополнения."
+
+msgid "Add or subtract tokens for a user."
+msgstr "Добавить или списать токены пользователю."
+
+msgid "Optional note"
+msgstr "Необязательная заметка"
+
 msgid "Rate (base currency per 1 token)"
 msgstr "Курс (валюта магазина за 1 токен)"
 

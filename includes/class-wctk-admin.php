@@ -65,36 +65,47 @@ final class WCTK_Admin {
             }
         }
 
-        echo '<div class="wrap"><h1>' . esc_html__('Token Payments (MVP)', WCTK_TEXT_DOMAIN) . '</h1>';
+        echo '<div class="wrap wctk-admin-wrap">';
+        echo '<h1 class="wp-heading-inline">' . esc_html__('Token Payments', WCTK_TEXT_DOMAIN) . '</h1>';
+        echo '<p class="wctk-admin-desc">' . esc_html__('Configure the token rate and manage balances.', WCTK_TEXT_DOMAIN) . '</p>';
+        echo '<hr class="wp-header-end">';
 
+        echo '<div class="wctk-admin-card" style="max-width: 640px; margin-top: 20px; background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,.04); border-radius: 4px;">';
+        echo '<div style="padding: 20px 24px 0; border-bottom: 1px solid #c3c4c7;"><h2 style="margin: 0 0 4px; font-size: 1.1em;">' . esc_html__('Settings', WCTK_TEXT_DOMAIN) . '</h2><p style="margin: 0; color: #646970;">' . esc_html__('Token rate and top-up product.', WCTK_TEXT_DOMAIN) . '</p></div>';
+        echo '<div style="padding: 20px 24px 24px;">';
         echo '<form method="post" action="options.php">';
         settings_fields('wctk_settings');
         do_settings_sections('wctk_settings');
 
-        echo '<table class="form-table" role="presentation">';
-        echo '<tr><th scope="row">' . esc_html(sprintf(__('Tokens per 1 %s', WCTK_TEXT_DOMAIN), $currency)) . '</th><td>';
-        echo '<input type="text" id="wctk_tokens_per_currency" name="' . esc_attr(WCTK_OPT_RATE) . '" value="' . esc_attr(rtrim(rtrim(number_format($tokens_per_currency, 4, '.', ''), '0'), '.')) . '" />';
-        echo '<p class="description" id="wctk-rate-preview">1 <span id="wctk-rate-currency">' . esc_html($currency) . '</span> = <span id="wctk-rate-tokens">' . esc_html((string) $tokens_per_currency) . '</span> ' . esc_html__('tokens', WCTK_TEXT_DOMAIN) . '</p>';
-        echo '<script>(function(){var c=document.getElementById("wctk-rate-currency").textContent,i=document.getElementById("wctk_tokens_per_currency"),s=document.getElementById("wctk-rate-tokens");function u(){var v=parseFloat(i.value);s.textContent=isNaN(v)||v<=0?"—":v;}i.addEventListener("input",u);i.addEventListener("change",u);})();</script>';
+        echo '<table class="form-table" role="presentation" style="margin-top: 0;">';
+        echo '<tr><th scope="row" style="padding-top: 16px;">' . esc_html(sprintf(__('Tokens per 1 %s', WCTK_TEXT_DOMAIN), $currency)) . '</th><td style="padding-top: 16px;">';
+        echo '<input type="text" id="wctk_tokens_per_currency" name="' . esc_attr(WCTK_OPT_RATE) . '" value="' . esc_attr(rtrim(rtrim(number_format($tokens_per_currency, 4, '.', ''), '0'), '.')) . '" class="regular-text" />';
+        echo '<p class="description" id="wctk-rate-preview" style="margin-top: 8px;">1 <span id="wctk-rate-currency">' . esc_html($currency) . '</span> = <span id="wctk-rate-tokens">' . esc_html((string) $tokens_per_currency) . '</span> ' . esc_html__('tokens', WCTK_TEXT_DOMAIN) . '</p>';
+        echo '<script>(function(){var i=document.getElementById("wctk_tokens_per_currency"),s=document.getElementById("wctk-rate-tokens");function u(){var v=parseFloat(i.value);s.textContent=isNaN(v)||v<=0?"—":v;}i.addEventListener("input",u);i.addEventListener("change",u);})();</script>';
         echo '</td></tr>';
 
         echo '<tr><th scope="row">' . esc_html__('Top-up product ID', WCTK_TEXT_DOMAIN) . '</th><td>';
-        echo '<input type="number" name="' . esc_attr(WCTK_OPT_TOPUP_PRODUCT_ID) . '" value="' . esc_attr((string) $product_id) . '" min="0" />';
+        echo '<input type="number" name="' . esc_attr(WCTK_OPT_TOPUP_PRODUCT_ID) . '" value="' . esc_attr((string) $product_id) . '" min="0" class="small-text" />';
         echo '<p class="description">' . esc_html__('Auto-created on activation. Keep this stable.', WCTK_TEXT_DOMAIN) . '</p>';
         echo '</td></tr>';
-
         echo '</table>';
         submit_button(__('Save Settings', WCTK_TEXT_DOMAIN));
         echo '</form>';
+        echo '</div></div>';
 
-        echo '<hr/><h2>' . esc_html__('Manual balance adjustment', WCTK_TEXT_DOMAIN) . '</h2>';
+        echo '<div class="wctk-admin-card" style="max-width: 640px; margin-top: 24px; background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,.04); border-radius: 4px;">';
+        echo '<div style="padding: 20px 24px 0; border-bottom: 1px solid #c3c4c7;"><h2 style="margin: 0 0 4px; font-size: 1.1em;">' . esc_html__('Manual balance adjustment', WCTK_TEXT_DOMAIN) . '</h2><p style="margin: 0; color: #646970;">' . esc_html__('Add or subtract tokens for a user.', WCTK_TEXT_DOMAIN) . '</p></div>';
+        echo '<div style="padding: 20px 24px 24px;">';
         echo '<form method="post">';
         wp_nonce_field('wctk_adjust_balance');
-        echo '<table class="form-table"><tr><th>' . esc_html__('User ID', WCTK_TEXT_DOMAIN) . '</th><td><input name="user_id" type="number" min="1" required></td></tr>';
-        echo '<tr><th>' . esc_html__('Delta tokens (+/-)', WCTK_TEXT_DOMAIN) . '</th><td><input name="delta" type="number" required></td></tr>';
-        echo '<tr><th>' . esc_html__('Note', WCTK_TEXT_DOMAIN) . '</th><td><input name="note" type="text" style="width: 400px;"></td></tr></table>';
-        echo '<p><button class="button button-primary" name="wctk_adjust_submit" value="1">' . esc_html__('Apply', WCTK_TEXT_DOMAIN) . '</button></p>';
+        echo '<table class="form-table" role="presentation" style="margin-top: 0;">';
+        echo '<tr><th scope="row" style="padding-top: 16px;">' . esc_html__('User ID', WCTK_TEXT_DOMAIN) . '</th><td style="padding-top: 16px;"><input name="user_id" type="number" min="1" required class="regular-text"></td></tr>';
+        echo '<tr><th scope="row">' . esc_html__('Delta tokens (+/-)', WCTK_TEXT_DOMAIN) . '</th><td><input name="delta" type="number" required class="small-text" placeholder="e.g. 10 or -5"></td></tr>';
+        echo '<tr><th scope="row">' . esc_html__('Note', WCTK_TEXT_DOMAIN) . '</th><td><input name="note" type="text" class="regular-text" placeholder="' . esc_attr__('Optional note', WCTK_TEXT_DOMAIN) . '"></td></tr>';
+        echo '</table>';
+        echo '<p style="margin-bottom: 0;"><button class="button button-primary" name="wctk_adjust_submit" value="1">' . esc_html__('Apply', WCTK_TEXT_DOMAIN) . '</button></p>';
         echo '</form>';
+        echo '</div></div>';
 
         echo '</div>';
     }
