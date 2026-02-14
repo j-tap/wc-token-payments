@@ -53,9 +53,6 @@ msgstr ""
 msgid "Error:"
 msgstr ""
 
-msgid "Token Payments (MVP)"
-msgstr ""
-
 msgid "Configure the token rate and manage balances."
 msgstr ""
 
@@ -71,12 +68,6 @@ msgstr ""
 msgid "Optional note"
 msgstr ""
 
-msgid "Rate (base currency per 1 token)"
-msgstr ""
-
-msgid "Example: 1 means 1 token = 1 %s"
-msgstr ""
-
 msgid "Tokens per 1 %s"
 msgstr ""
 
@@ -87,6 +78,15 @@ msgid "Top-up product ID"
 msgstr ""
 
 msgid "Auto-created on activation. Keep this stable."
+msgstr ""
+
+msgid "Top-up payment page"
+msgstr ""
+
+msgid "Leave empty to use the default WooCommerce checkout (%s). Customer is redirected here to enter billing details, select payment method and pay."
+msgstr ""
+
+msgid "Could not add top-up to cart."
 msgstr ""
 
 msgid "Save Settings"
@@ -143,25 +143,19 @@ msgstr ""
 msgid "You must be logged in to buy tokens."
 msgstr ""
 
-msgid "How many tokens to buy:"
-msgstr ""
-
 msgid "Amount in %s:"
 msgstr ""
 
 msgid "You will receive:"
 msgstr ""
 
-msgid "Rate: 1 token = %1$s %2$s"
+msgid "Proceed to payment"
 msgstr ""
 
 msgid "Invalid amount."
 msgstr ""
 
 msgid "Amount is too low to receive at least 1 token."
-msgstr ""
-
-msgid "Create order"
 msgstr ""
 
 msgid "Invalid user or token quantity."
@@ -173,7 +167,7 @@ msgstr ""
 msgid "Security check failed. Please try again."
 msgstr ""
 
-msgid "Invalid token quantity."
+msgid "Token top-up"
 msgstr ""
 
 msgid "Token top-up via Woo order"

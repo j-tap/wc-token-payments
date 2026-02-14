@@ -55,9 +55,6 @@ msgstr "Saldo actualizado."
 msgid "Error:"
 msgstr "Error:"
 
-msgid "Token Payments (MVP)"
-msgstr "Pago con tokens (MVP)"
-
 msgid "Configure the token rate and manage balances."
 msgstr "Configura el tipo de cambio de tokens y gestiona los saldos."
 
@@ -73,12 +70,6 @@ msgstr "Añadir o restar tokens a un usuario."
 msgid "Optional note"
 msgstr "Nota opcional"
 
-msgid "Rate (base currency per 1 token)"
-msgstr "Tasa (moneda por 1 token)"
-
-msgid "Example: 1 means 1 token = 1 %s"
-msgstr "Ejemplo: 1 significa 1 token = 1 %s"
-
 msgid "Tokens per 1 %s"
 msgstr "Tokens por 1 %s"
 
@@ -90,6 +81,15 @@ msgstr "ID del producto de recarga"
 
 msgid "Auto-created on activation. Keep this stable."
 msgstr "Se crea al activar. Mantén este valor estable."
+
+msgid "Top-up payment page"
+msgstr "Página de pago de recarga"
+
+msgid "Leave empty to use the default WooCommerce checkout (%s). Customer is redirected here to enter billing details, select payment method and pay."
+msgstr "Deja vacío para usar el checkout de WooCommerce (%s). El cliente será redirigido aquí para introducir datos, seleccionar método de pago y pagar."
+
+msgid "Could not add top-up to cart."
+msgstr "No se pudo añadir la recarga al carrito."
 
 msgid "Save Settings"
 msgstr "Guardar ajustes"
@@ -145,26 +145,20 @@ msgstr "El pago con tokens ha fallado: %s"
 msgid "You must be logged in to buy tokens."
 msgstr "Inicia sesión para comprar tokens."
 
-msgid "How many tokens to buy:"
-msgstr "Cuántos tokens comprar:"
-
 msgid "Amount in %s:"
 msgstr "Importe en %s:"
 
 msgid "You will receive:"
 msgstr "Recibirás:"
 
-msgid "Rate: 1 token = %1$s %2$s"
-msgstr "Tasa: 1 token = %1$s %2$s"
+msgid "Proceed to payment"
+msgstr "Proceder al pago"
 
 msgid "Invalid amount."
 msgstr "Importe no válido."
 
 msgid "Amount is too low to receive at least 1 token."
 msgstr "El importe es demasiado bajo para recibir al menos 1 token."
-
-msgid "Create order"
-msgstr "Crear pedido"
 
 msgid "Invalid user or token quantity."
 msgstr "Usuario o cantidad de tokens no válidos."
@@ -175,8 +169,8 @@ msgstr "Producto de recarga no encontrado."
 msgid "Security check failed. Please try again."
 msgstr "Comprobación de seguridad fallida. Inténtalo de nuevo."
 
-msgid "Invalid token quantity."
-msgstr "Cantidad de tokens no válida."
+msgid "Token top-up"
+msgstr "Recarga de tokens"
 
 msgid "Token top-up via Woo order"
 msgstr "Recarga de tokens mediante pedido WooCommerce"

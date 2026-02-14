@@ -23,7 +23,10 @@ final class WCTK_Gateway_Tokens {
     }
 
     /**
-     * Скрываем метод, если пользователь не залогинен или в корзине top-up.
+     * Hide token gateway when:
+     *  - user is not logged in;
+     *  - cart contains the top-up product;
+     *  - order-pay page is for a top-up order.
      *
      * @param array<string, WC_Payment_Gateway> $gateways
      * @return array<string, WC_Payment_Gateway>
@@ -35,14 +38,26 @@ final class WCTK_Gateway_Tokens {
         }
 
         $topup_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
+
         if ($topup_id > 0 && WC()->cart) {
             foreach (WC()->cart->get_cart() as $cart_item) {
-                if (!empty($cart_item['product_id']) && (int)$cart_item['product_id'] === $topup_id) {
+                if (!empty($cart_item['product_id']) && (int) $cart_item['product_id'] === $topup_id) {
                     unset($gateways['wctk_tokens']);
-                    break;
+                    return $gateways;
                 }
             }
         }
+
+        if (function_exists('is_wc_endpoint_url') && is_wc_endpoint_url('order-pay')) {
+            $order_id = absint(get_query_var('order-pay'));
+            if ($order_id > 0) {
+                $order = wc_get_order($order_id);
+                if ($order && $order->get_meta(WCTK_ORDER_META_IS_TOPUP) === 'yes') {
+                    unset($gateways['wctk_tokens']);
+                }
+            }
+        }
+
         return $gateways;
     }
 }

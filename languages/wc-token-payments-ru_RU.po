@@ -55,9 +55,6 @@ msgstr "Баланс обновлён."
 msgid "Error:"
 msgstr "Ошибка:"
 
-msgid "Token Payments (MVP)"
-msgstr "Платёж токенами (MVP)"
-
 msgid "Configure the token rate and manage balances."
 msgstr "Настройка курса токенов и управление балансами."
 
@@ -73,12 +70,6 @@ msgstr "Добавить или списать токены пользовате
 msgid "Optional note"
 msgstr "Необязательная заметка"
 
-msgid "Rate (base currency per 1 token)"
-msgstr "Курс (валюта магазина за 1 токен)"
-
-msgid "Example: 1 means 1 token = 1 %s"
-msgstr "Пример: 1 — один токен = 1 %s"
-
 msgid "Tokens per 1 %s"
 msgstr "Токенов за 1 %s"
 
@@ -90,6 +81,15 @@ msgstr "ID товара пополнения"
 
 msgid "Auto-created on activation. Keep this stable."
 msgstr "Создаётся при активации. Не меняйте без необходимости."
+
+msgid "Top-up payment page"
+msgstr "Страница оплаты пополнения"
+
+msgid "Leave empty to use the default WooCommerce checkout (%s). Customer is redirected here to enter billing details, select payment method and pay."
+msgstr "Оставьте пустым для использования страницы оформления WooCommerce (%s). Покупатель будет перенаправлен сюда для ввода данных, выбора способа оплаты и оплаты."
+
+msgid "Could not add top-up to cart."
+msgstr "Не удалось добавить пополнение в корзину."
 
 msgid "Save Settings"
 msgstr "Сохранить настройки"
@@ -145,26 +145,20 @@ msgstr "Оплата токенами не удалась: %s"
 msgid "You must be logged in to buy tokens."
 msgstr "Войдите, чтобы купить токены."
 
-msgid "How many tokens to buy:"
-msgstr "Сколько токенов купить:"
-
 msgid "Amount in %s:"
 msgstr "Сумма в %s:"
 
 msgid "You will receive:"
 msgstr "Вы получите:"
 
-msgid "Rate: 1 token = %1$s %2$s"
-msgstr "Курс: 1 токен = %1$s %2$s"
+msgid "Proceed to payment"
+msgstr "Перейти к оплате"
 
 msgid "Invalid amount."
 msgstr "Некорректная сумма."
 
 msgid "Amount is too low to receive at least 1 token."
 msgstr "Сумма слишком мала для получения хотя бы 1 токена."
-
-msgid "Create order"
-msgstr "Создать заказ"
 
 msgid "Invalid user or token quantity."
 msgstr "Некорректный пользователь или количество токенов."
@@ -175,8 +169,8 @@ msgstr "Товар пополнения не найден."
 msgid "Security check failed. Please try again."
 msgstr "Проверка безопасности не пройдена. Попробуйте снова."
 
-msgid "Invalid token quantity."
-msgstr "Некорректное количество токенов."
+msgid "Token top-up"
+msgstr "Пополнение токенов"
 
 msgid "Token top-up via Woo order"
 msgstr "Пополнение токенов через заказ WooCommerce"
