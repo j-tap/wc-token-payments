@@ -158,6 +158,7 @@ final class WCTK_Shortcode_Buy {
 
         $order->update_meta_data(WCTK_ORDER_META_IS_TOPUP, 'yes');
         $order->update_meta_data(WCTK_ORDER_META_TOKENS_QTY, $tokens_qty);
+        $order->calculate_totals();
         $order->save();
 
         return $order;
