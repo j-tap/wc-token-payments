@@ -43,8 +43,8 @@ msgstr "Примечание"
 msgid "You must be logged in to view token balance."
 msgstr "Войдите, чтобы увидеть баланс токенов."
 
-msgid "Your token balance:"
-msgstr "Ваш баланс токенов:"
+msgid "Token balance:"
+msgstr "Баланс токенов:"
 
 msgid "Token Payments"
 msgstr "Платёж токенами"
@@ -63,6 +63,12 @@ msgstr "Курс (валюта магазина за 1 токен)"
 
 msgid "Example: 1 means 1 token = 1 %s"
 msgstr "Пример: 1 — один токен = 1 %s"
+
+msgid "Tokens per 1 %s"
+msgstr "Токенов за 1 %s"
+
+msgid "tokens"
+msgstr "токенов"
 
 msgid "Top-up product ID"
 msgstr "ID товара пополнения"

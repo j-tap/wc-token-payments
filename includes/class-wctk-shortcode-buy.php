@@ -49,10 +49,10 @@ final class WCTK_Shortcode_Buy {
         ?>
         <form method="post" class="wctk-topup-form">
             <?php wp_nonce_field(WCTK_NONCE_ACTION_BUY_TOKENS, 'wctk_buy_nonce'); ?>
-            <p>
+            <div class="form-group">
                 <label for="wctk_tokens_qty"><?php echo esc_html__('How many tokens to buy:', WCTK_TEXT_DOMAIN); ?></label>
-                <input id="wctk_tokens_qty" type="number" name="tokens_qty" min="1" step="1" required>
-            </p>
+                <input id="wctk_tokens_qty" type="number" name="tokens_qty" min="1" step="1" required class="woocommerce-Input woocommerce-Input--text input-text form-control">
+            </div>
             <p class="description">
                 <?php
                 echo esc_html(
@@ -65,9 +65,9 @@ final class WCTK_Shortcode_Buy {
                 );
                 ?>
             </p>
-            <p>
-                <button type="submit" name="wctk_buy_submit" value="1"><?php echo esc_html__('Create order', WCTK_TEXT_DOMAIN); ?></button>
-            </p>
+            <div class="form-group">
+                <button type="submit" name="wctk_buy_submit" value="1" class="woocommerce-Button axil-btn button woocommerce-Button--info"><?php echo esc_html__('Create order', WCTK_TEXT_DOMAIN); ?></button>
+            </div>
         </form>
         <?php
         return ob_get_clean();

@@ -21,7 +21,7 @@ final class WCTK_Shortcode_Balance {
         }
 
         $balance = WCTK_Balance::get($user_id);
-        $label = __('Your token balance:', WCTK_TEXT_DOMAIN);
+        $label = __('Token balance:', WCTK_TEXT_DOMAIN);
         $tag = in_array($wrapper_tag, ['p', 'h2', 'h3', 'div'], true) ? $wrapper_tag : 'p';
 
         return '<' . $tag . ' class="wctk-balance"><strong>' . esc_html($label) . '</strong> ' . esc_html((string) $balance) . '</' . $tag . '>';

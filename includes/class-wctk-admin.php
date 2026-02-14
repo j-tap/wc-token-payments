@@ -25,8 +25,9 @@ final class WCTK_Admin {
                 $val = trim((string) $val);
                 if ($val === '') return '1';
                 if (!preg_match('/^\d+(\.\d+)?$/', $val)) return '1';
-                if ((float) $val <= 0) return '1';
-                return $val;
+                $tokens = (float) $val;
+                if ($tokens <= 0) return '1';
+                return (string) (1 / $tokens);
             }
         ]);
 
@@ -39,7 +40,9 @@ final class WCTK_Admin {
     public static function render_page(): void {
         if (!current_user_can('manage_woocommerce')) return;
 
-        $rate = get_option(WCTK_OPT_RATE, '1');
+        $rate = (float) get_option(WCTK_OPT_RATE, '1');
+        $tokens_per_currency = $rate > 0 ? (1 / $rate) : 1;
+        $currency = get_woocommerce_currency();
         $product_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
 
         // Ручная корректировка
@@ -69,9 +72,10 @@ final class WCTK_Admin {
         do_settings_sections('wctk_settings');
 
         echo '<table class="form-table" role="presentation">';
-        echo '<tr><th scope="row">' . esc_html__('Rate (base currency per 1 token)', WCTK_TEXT_DOMAIN) . '</th><td>';
-        echo '<input type="text" name="' . esc_attr(WCTK_OPT_RATE) . '" value="' . esc_attr($rate) . '" />';
-        echo '<p class="description">' . esc_html(sprintf(__('Example: 1 means 1 token = 1 %s', WCTK_TEXT_DOMAIN), get_woocommerce_currency())) . '</p>';
+        echo '<tr><th scope="row">' . esc_html(sprintf(__('Tokens per 1 %s', WCTK_TEXT_DOMAIN), $currency)) . '</th><td>';
+        echo '<input type="text" id="wctk_tokens_per_currency" name="' . esc_attr(WCTK_OPT_RATE) . '" value="' . esc_attr(rtrim(rtrim(number_format($tokens_per_currency, 4, '.', ''), '0'), '.')) . '" />';
+        echo '<p class="description" id="wctk-rate-preview">1 <span id="wctk-rate-currency">' . esc_html($currency) . '</span> = <span id="wctk-rate-tokens">' . esc_html((string) $tokens_per_currency) . '</span> ' . esc_html__('tokens', WCTK_TEXT_DOMAIN) . '</p>';
+        echo '<script>(function(){var c=document.getElementById("wctk-rate-currency").textContent,i=document.getElementById("wctk_tokens_per_currency"),s=document.getElementById("wctk-rate-tokens");function u(){var v=parseFloat(i.value);s.textContent=isNaN(v)||v<=0?"—":v;}i.addEventListener("input",u);i.addEventListener("change",u);})();</script>';
         echo '</td></tr>';
 
         echo '<tr><th scope="row">' . esc_html__('Top-up product ID', WCTK_TEXT_DOMAIN) . '</th><td>';

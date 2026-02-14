@@ -41,9 +41,21 @@ Submitting the form creates a WooCommerce top-up order; the customer pays at che
 
 ### Public API (for themes / other plugins)
 
-- **`WCTK_Shortcode_Balance::render_balance(?int $user_id = null, string $wrapper_tag = 'p'): string`** — balance HTML; `$user_id = null` uses the current user.
-- **`WCTK_Shortcode_Buy::render_topup_form(): string`** — top-up form HTML.
-- **`WCTK_Shortcode_Buy::create_topup_order(int $user_id, int $tokens_qty): WC_Order|WP_Error`** — create a top-up order programmatically; returns the order or `WP_Error`. The caller is responsible for redirecting to payment if needed, e.g. `wp_safe_redirect($order->get_checkout_payment_url()); exit;`
+**Balance (raw number, no HTML)**
+
+- **`WCTK_Balance::get(int $user_id): int`** — returns the token balance for the given user. For the current user: `WCTK_Balance::get(get_current_user_id())`.
+
+**Balance (HTML output)**
+
+- **`WCTK_Shortcode_Balance::render_balance(?int $user_id = null, string $wrapper_tag = 'p'): string`** — returns HTML with the balance (label + number). `$user_id = null` uses the current user; `$wrapper_tag` can be `'p'`, `'h2'`, `'h3'`, `'div'`. For guests returns a “log in” message.
+
+**Top-up form**
+
+- **`WCTK_Shortcode_Buy::render_topup_form(): string`** — returns the top-up form HTML (quantity field, rate note, “Create order” button). Use `echo WCTK_Shortcode_Buy::render_topup_form();` to output it anywhere.
+
+**Create top-up order programmatically**
+
+- **`WCTK_Shortcode_Buy::create_topup_order(int $user_id, int $tokens_qty): WC_Order|WP_Error`** — creates a top-up order; returns the order or `WP_Error`. Redirect to payment is up to the caller, e.g. `wp_safe_redirect($order->get_checkout_payment_url()); exit;`
 
 ### Pay with Tokens
 

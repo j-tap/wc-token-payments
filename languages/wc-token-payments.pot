@@ -41,7 +41,7 @@ msgstr ""
 msgid "You must be logged in to view token balance."
 msgstr ""
 
-msgid "Your token balance:"
+msgid "Token balance:"
 msgstr ""
 
 msgid "Token Payments"
@@ -60,6 +60,12 @@ msgid "Rate (base currency per 1 token)"
 msgstr ""
 
 msgid "Example: 1 means 1 token = 1 %s"
+msgstr ""
+
+msgid "Tokens per 1 %s"
+msgstr ""
+
+msgid "tokens"
 msgstr ""
 
 msgid "Top-up product ID"
