@@ -1,0 +1,147 @@
+# Copyright (C) WC Token Payments
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Token Payments\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: wc-token-payments\n"
+
+msgid "WC Token Payments requires WooCommerce to be installed and active."
+msgstr ""
+
+msgid "Token Balance"
+msgstr ""
+
+msgid "No operations yet."
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Kind"
+msgstr ""
+
+msgid "Tokens"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "You must be logged in to view token balance."
+msgstr ""
+
+msgid "Your token balance:"
+msgstr ""
+
+msgid "Token Payments"
+msgstr ""
+
+msgid "Balance updated."
+msgstr ""
+
+msgid "Error:"
+msgstr ""
+
+msgid "Token Payments (MVP)"
+msgstr ""
+
+msgid "Rate (base currency per 1 token)"
+msgstr ""
+
+msgid "Example: 1 means 1 token = 1 %s"
+msgstr ""
+
+msgid "Top-up product ID"
+msgstr ""
+
+msgid "Auto-created on activation. Keep this stable."
+msgstr ""
+
+msgid "Save Settings"
+msgstr ""
+
+msgid "Manual balance adjustment"
+msgstr ""
+
+msgid "User ID"
+msgstr ""
+
+msgid "Delta tokens (+/-)"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Pay with Tokens"
+msgstr ""
+
+msgid "Pay using token balance."
+msgstr ""
+
+msgid "Enable/Disable"
+msgstr ""
+
+msgid "Enable token payments"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "You must be logged in to pay with tokens."
+msgstr ""
+
+msgid "Top-up orders cannot be paid with tokens."
+msgstr ""
+
+msgid "Invalid token calculation."
+msgstr ""
+
+msgid "Not enough tokens. Need %1$d, you have %2$d."
+msgstr ""
+
+msgid "Payment in progress, please try again."
+msgstr ""
+
+msgid "Paid with tokens"
+msgstr ""
+
+msgid "Token payment failed: %s"
+msgstr ""
+
+msgid "You must be logged in to buy tokens."
+msgstr ""
+
+msgid "How many tokens to buy:"
+msgstr ""
+
+msgid "Rate: 1 token = %1$s %2$s"
+msgstr ""
+
+msgid "Create order"
+msgstr ""
+
+msgid "Invalid user or token quantity."
+msgstr ""
+
+msgid "Top-up product not found."
+msgstr ""
+
+msgid "Security check failed. Please try again."
+msgstr ""
+
+msgid "Invalid token quantity."
+msgstr ""
+
+msgid "Token top-up via Woo order"
+msgstr ""

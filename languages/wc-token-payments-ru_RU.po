@@ -1,0 +1,149 @@
+# Russian translation for WC Token Payments
+# Copyright (C) WC Token Payments
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Token Payments\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: 2025-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Domain: wc-token-payments\n"
+
+msgid "WC Token Payments requires WooCommerce to be installed and active."
+msgstr "Для работы WC Token Payments нужен установленный и активный WooCommerce."
+
+msgid "Token Balance"
+msgstr "Баланс токенов"
+
+msgid "No operations yet."
+msgstr "Операций пока нет."
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Kind"
+msgstr "Тип"
+
+msgid "Tokens"
+msgstr "Токены"
+
+msgid "Order"
+msgstr "Заказ"
+
+msgid "Note"
+msgstr "Примечание"
+
+msgid "You must be logged in to view token balance."
+msgstr "Войдите, чтобы увидеть баланс токенов."
+
+msgid "Your token balance:"
+msgstr "Ваш баланс токенов:"
+
+msgid "Token Payments"
+msgstr "Платёж токенами"
+
+msgid "Balance updated."
+msgstr "Баланс обновлён."
+
+msgid "Error:"
+msgstr "Ошибка:"
+
+msgid "Token Payments (MVP)"
+msgstr "Платёж токенами (MVP)"
+
+msgid "Rate (base currency per 1 token)"
+msgstr "Курс (валюта магазина за 1 токен)"
+
+msgid "Example: 1 means 1 token = 1 %s"
+msgstr "Пример: 1 — один токен = 1 %s"
+
+msgid "Top-up product ID"
+msgstr "ID товара пополнения"
+
+msgid "Auto-created on activation. Keep this stable."
+msgstr "Создаётся при активации. Не меняйте без необходимости."
+
+msgid "Save Settings"
+msgstr "Сохранить настройки"
+
+msgid "Manual balance adjustment"
+msgstr "Ручная корректировка баланса"
+
+msgid "User ID"
+msgstr "ID пользователя"
+
+msgid "Delta tokens (+/-)"
+msgstr "Изменение токенов (+/-)"
+
+msgid "Apply"
+msgstr "Применить"
+
+msgid "Pay with Tokens"
+msgstr "Оплата токенами"
+
+msgid "Pay using token balance."
+msgstr "Оплата с баланса токенов."
+
+msgid "Enable/Disable"
+msgstr "Включить/выключить"
+
+msgid "Enable token payments"
+msgstr "Включить оплату токенами"
+
+msgid "Title"
+msgstr "Название"
+
+msgid "You must be logged in to pay with tokens."
+msgstr "Войдите, чтобы оплатить токенами."
+
+msgid "Top-up orders cannot be paid with tokens."
+msgstr "Заказы на пополнение нельзя оплатить токенами."
+
+msgid "Invalid token calculation."
+msgstr "Некорректный расчёт токенов."
+
+msgid "Not enough tokens. Need %1$d, you have %2$d."
+msgstr "Недостаточно токенов. Нужно %1$d, у вас %2$d."
+
+msgid "Payment in progress, please try again."
+msgstr "Оплата выполняется, попробуйте позже."
+
+msgid "Paid with tokens"
+msgstr "Оплачено токенами"
+
+msgid "Token payment failed: %s"
+msgstr "Оплата токенами не удалась: %s"
+
+msgid "You must be logged in to buy tokens."
+msgstr "Войдите, чтобы купить токены."
+
+msgid "How many tokens to buy:"
+msgstr "Сколько токенов купить:"
+
+msgid "Rate: 1 token = %1$s %2$s"
+msgstr "Курс: 1 токен = %1$s %2$s"
+
+msgid "Create order"
+msgstr "Создать заказ"
+
+msgid "Invalid user or token quantity."
+msgstr "Некорректный пользователь или количество токенов."
+
+msgid "Top-up product not found."
+msgstr "Товар пополнения не найден."
+
+msgid "Security check failed. Please try again."
+msgstr "Проверка безопасности не пройдена. Попробуйте снова."
+
+msgid "Invalid token quantity."
+msgstr "Некорректное количество токенов."
+
+msgid "Token top-up via Woo order"
+msgstr "Пополнение токенов через заказ WooCommerce"

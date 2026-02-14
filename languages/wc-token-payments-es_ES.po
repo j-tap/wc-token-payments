@@ -1,0 +1,149 @@
+# Spanish (Spain) translation for WC Token Payments
+# Copyright (C) WC Token Payments
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Token Payments\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: 2025-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish (Spain)\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-token-payments\n"
+
+msgid "WC Token Payments requires WooCommerce to be installed and active."
+msgstr "WC Token Payments requiere WooCommerce instalado y activo."
+
+msgid "Token Balance"
+msgstr "Saldo de tokens"
+
+msgid "No operations yet."
+msgstr "Aún no hay operaciones."
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Kind"
+msgstr "Tipo"
+
+msgid "Tokens"
+msgstr "Tokens"
+
+msgid "Order"
+msgstr "Pedido"
+
+msgid "Note"
+msgstr "Nota"
+
+msgid "You must be logged in to view token balance."
+msgstr "Inicia sesión para ver tu saldo de tokens."
+
+msgid "Your token balance:"
+msgstr "Tu saldo de tokens:"
+
+msgid "Token Payments"
+msgstr "Pago con tokens"
+
+msgid "Balance updated."
+msgstr "Saldo actualizado."
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "Token Payments (MVP)"
+msgstr "Pago con tokens (MVP)"
+
+msgid "Rate (base currency per 1 token)"
+msgstr "Tasa (moneda por 1 token)"
+
+msgid "Example: 1 means 1 token = 1 %s"
+msgstr "Ejemplo: 1 significa 1 token = 1 %s"
+
+msgid "Top-up product ID"
+msgstr "ID del producto de recarga"
+
+msgid "Auto-created on activation. Keep this stable."
+msgstr "Se crea al activar. Mantén este valor estable."
+
+msgid "Save Settings"
+msgstr "Guardar ajustes"
+
+msgid "Manual balance adjustment"
+msgstr "Ajuste manual del saldo"
+
+msgid "User ID"
+msgstr "ID de usuario"
+
+msgid "Delta tokens (+/-)"
+msgstr "Cambio de tokens (+/-)"
+
+msgid "Apply"
+msgstr "Aplicar"
+
+msgid "Pay with Tokens"
+msgstr "Pagar con tokens"
+
+msgid "Pay using token balance."
+msgstr "Pagar con el saldo de tokens."
+
+msgid "Enable/Disable"
+msgstr "Activar/Desactivar"
+
+msgid "Enable token payments"
+msgstr "Activar pago con tokens"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "You must be logged in to pay with tokens."
+msgstr "Inicia sesión para pagar con tokens."
+
+msgid "Top-up orders cannot be paid with tokens."
+msgstr "Los pedidos de recarga no se pueden pagar con tokens."
+
+msgid "Invalid token calculation."
+msgstr "Cálculo de tokens no válido."
+
+msgid "Not enough tokens. Need %1$d, you have %2$d."
+msgstr "Tokens insuficientes. Necesitas %1$d, tienes %2$d."
+
+msgid "Payment in progress, please try again."
+msgstr "Pago en curso, inténtalo de nuevo."
+
+msgid "Paid with tokens"
+msgstr "Pagado con tokens"
+
+msgid "Token payment failed: %s"
+msgstr "El pago con tokens ha fallado: %s"
+
+msgid "You must be logged in to buy tokens."
+msgstr "Inicia sesión para comprar tokens."
+
+msgid "How many tokens to buy:"
+msgstr "Cuántos tokens comprar:"
+
+msgid "Rate: 1 token = %1$s %2$s"
+msgstr "Tasa: 1 token = %1$s %2$s"
+
+msgid "Create order"
+msgstr "Crear pedido"
+
+msgid "Invalid user or token quantity."
+msgstr "Usuario o cantidad de tokens no válidos."
+
+msgid "Top-up product not found."
+msgstr "Producto de recarga no encontrado."
+
+msgid "Security check failed. Please try again."
+msgstr "Comprobación de seguridad fallida. Inténtalo de nuevo."
+
+msgid "Invalid token quantity."
+msgstr "Cantidad de tokens no válida."
+
+msgid "Token top-up via Woo order"
+msgstr "Recarga de tokens mediante pedido WooCommerce"

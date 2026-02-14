@@ -15,6 +15,7 @@ WordPress plugin: token wallet for WooCommerce. Customers top up balance with mo
 - **Pay with Tokens** — payment gateway that deducts tokens from balance
 - **My Account** — “Token Balance” tab with balance and transaction history
 - **Admin** — WooCommerce → Token Payments: rate (currency per token), manual balance adjustment
+- **Languages** — English (default), Russian (ru_RU), Spanish (es_ES); WordPress picks the locale automatically from **Settings → General → Site Language**
 
 ## Installation
 
@@ -82,6 +83,16 @@ The script:
 3. Commits changes, creates tag `vX.Y.Z`, pushes, and creates a GitHub Release with the ZIP
 
 Installed copies of the plugin (with `vendor/`) will see the update under **Plugins** or **Updates**.
+
+## Languages
+
+The plugin is translated via `.po`/`.mo` files in `languages/`. Included:
+
+- **English** — source strings in code (no .mo needed)
+- **Russian (ru_RU)** — `wc-token-payments-ru_RU.po` / `wc-token-payments-ru_RU.mo`
+- **Spanish (es_ES)** — `wc-token-payments-es_ES.po` / `wc-token-payments-es_ES.mo`
+
+WordPress loads the translation for the site locale (`Settings → General → Site Language`). To add or update translations: edit the `.po` file, then run `msgfmt -o wc-token-payments-{locale}.mo wc-token-payments-{locale}.po` in the `languages/` folder (requires gettext).
 
 ## Project structure
 
