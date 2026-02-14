@@ -1,0 +1,12 @@
+{
+    "name": "colibrix/wc-token-payments",
+    "description": "Token wallet for WooCommerce",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.4",
+        "yahnis-elsts/plugin-update-checker": "^5.0"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

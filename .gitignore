@@ -14,7 +14,6 @@ Thumbs.db
 
 # PHP
 vendor/
-composer.lock
 .phpunit.result.cache
 
 # Logs & env
@@ -25,3 +24,6 @@ composer.lock
 # Build / assets (if added later)
 node_modules/
 npm-debug.log*
+
+# Release archive (output of make-release.sh)
+wc-token-payments-*.zip

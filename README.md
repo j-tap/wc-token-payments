@@ -53,14 +53,41 @@ Under **My Account**, the **Token Balance** tab shows balance and the last 50 le
   - **Top-up product ID** — auto-created on activation; leave as is unless you know what you’re doing
   - **Manual balance adjustment** — User ID, delta (+/-), note; applies an `admin_adjust` ledger entry
 
+## Updates (from GitHub)
+
+If the plugin was installed from a ZIP that includes `vendor/` (e.g. from a [Release](https://github.com/j-tap/wc-token-payments/releases)), WordPress will show **Update available** when a new release is published. Update via **Plugins → Installed Plugins** or **Dashboard → Updates**.
+
+To publish an update: create a new [Release](https://github.com/j-tap/wc-token-payments/releases) on GitHub (tag e.g. `0.2.0`), then attach the ZIP built by `./make-release.sh 0.2.0` as a release asset.
+
+## Releasing a new version
+
+**Single source of version:** `readme.txt` — строка `Stable tag: X.Y.Z`. Её можно править вручную; в `wc-token-payments.php` версию подставляет скрипт при релизе.
+
+**Requirements:** [GitHub CLI](https://cli.github.com/) (`brew install gh`), `gh auth login`.
+
+```bash
+./make-release.sh 0.2.0   # записать 0.2.0 в readme.txt и сделать релиз
+./make-release.sh         # взять версию из readme.txt и сделать релиз
+```
+
+Скрипт:
+1. Берёт версию из `readme.txt` (или сначала пишет её туда, если передан аргумент)
+2. Подставляет её в `wc-token-payments.php`, собирает ZIP
+3. Коммитит изменения, создаёт тег `vX.Y.Z`, пушит, создаёт GitHub Release с ZIP
+
+Уже установленные копии плагина (с `vendor/`) увидят обновление в **Плагины** или **Обновления**.
+
 ## Project structure
 
 ```
 wc-token-payments/
 ├── wc-token-payments.php    # Bootstrap, constants, hooks
+├── composer.json            # plugin-update-checker for GitHub updates
+├── make-release.sh          # Builds installable ZIP
 ├── readme.txt               # WordPress.org readme
 ├── uninstall.php            # Runs on plugin delete (no data wipe by default)
 ├── languages/               # .po / .mo for translations
+├── vendor/                  # After composer install (needed for updates)
 └── includes/
     ├── class-wctk-plugin.php
     ├── class-wctk-ledger.php
