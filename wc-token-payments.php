@@ -26,7 +26,6 @@ define('WCTK_URL', plugin_dir_url(__FILE__));
 define('WCTK_VERSION', '0.1.0');
 define('WCTK_TEXT_DOMAIN', 'wc-token-payments');
 define('WCTK_GITHUB_REPO', 'j-tap/wc-token-payments');
-
 define('WCTK_OPT_RATE', 'wctk_rate');
 define('WCTK_OPT_TOPUP_PRODUCT_ID', 'wctk_topup_product_id');
 define('WCTK_ORDER_META_IS_TOPUP', '_wctk_is_topup');

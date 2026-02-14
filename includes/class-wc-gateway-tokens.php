@@ -51,14 +51,12 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             return ['result' => 'fail'];
         }
 
-        if ($order->get_meta('_wctk_is_topup') === 'yes') {
+        if ($order->get_meta(WCTK_ORDER_META_IS_TOPUP) === 'yes') {
             wc_add_notice(__('Top-up orders cannot be paid with tokens.', WCTK_TEXT_DOMAIN), 'error');
             return ['result' => 'fail'];
         }
 
-        $rate = (float) get_option('wctk_rate', '1');
-        if ($rate <= 0) $rate = 1.0;
-
+        $rate = WCTK_Plugin::get_rate();
         $total = (float) $order->get_total();
         $needed_tokens = (int) ceil($total / $rate);
         $balance = WCTK_Balance::get($user_id);
@@ -81,7 +79,7 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
             return ['result' => 'fail'];
         }
 
-        if ($order->get_meta('_wctk_tokens_spent') === 'yes') {
+        if ($order->get_meta(WCTK_ORDER_META_TOKENS_SPENT) === 'yes') {
             return [
                 'result' => 'success',
                 'redirect' => $this->get_return_url($order),
@@ -90,7 +88,7 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
 
         $lock_key = self::SPEND_LOCK_PREFIX . $order_id;
         if (get_transient($lock_key)) {
-            if ($order->get_meta('_wctk_tokens_spent') === 'yes') {
+            if ($order->get_meta(WCTK_ORDER_META_TOKENS_SPENT) === 'yes') {
                 return [
                     'result' => 'success',
                     'redirect' => $this->get_return_url($order),
@@ -102,7 +100,7 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
         set_transient($lock_key, 1, self::SPEND_LOCK_TTL);
 
         try {
-            if ($order->get_meta('_wctk_tokens_spent') === 'yes') {
+            if ($order->get_meta(WCTK_ORDER_META_TOKENS_SPENT) === 'yes') {
                 delete_transient($lock_key);
                 return [
                     'result' => 'success',
@@ -117,8 +115,8 @@ class WC_Gateway_Tokens extends WC_Payment_Gateway {
                 'currency' => $order->get_currency(),
             ]);
 
-            $order->update_meta_data('_wctk_tokens_spent', 'yes');
-            $order->update_meta_data('_wctk_tokens_spent_qty', $needed_tokens);
+            $order->update_meta_data(WCTK_ORDER_META_TOKENS_SPENT, 'yes');
+            $order->update_meta_data(WCTK_ORDER_META_TOKENS_SPENT_QTY, $needed_tokens);
             $order->payment_complete();
 
             if ($order->needs_processing()) {

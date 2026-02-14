@@ -19,20 +19,18 @@ final class WCTK_Admin {
     }
 
     public static function register_settings(): void {
-        register_setting('wctk_settings', 'wctk_rate', [
+        register_setting('wctk_settings', WCTK_OPT_RATE, [
             'type' => 'string',
             'sanitize_callback' => function ($val) {
-                // rate = цена 1 токена в базовой валюте (целое или дробное число строкой)
-                $val = trim((string)$val);
+                $val = trim((string) $val);
                 if ($val === '') return '1';
-                // допускаем 0.01..999999
                 if (!preg_match('/^\d+(\.\d+)?$/', $val)) return '1';
-                if ((float)$val <= 0) return '1';
+                if ((float) $val <= 0) return '1';
                 return $val;
             }
         ]);
 
-        register_setting('wctk_settings', 'wctk_topup_product_id', [
+        register_setting('wctk_settings', WCTK_OPT_TOPUP_PRODUCT_ID, [
             'type'              => 'integer',
             'sanitize_callback' => 'absint',
         ]);
@@ -41,8 +39,8 @@ final class WCTK_Admin {
     public static function render_page(): void {
         if (!current_user_can('manage_woocommerce')) return;
 
-        $rate = get_option('wctk_rate', '1');
-        $product_id = (int) get_option('wctk_topup_product_id', 0);
+        $rate = get_option(WCTK_OPT_RATE, '1');
+        $product_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
 
         // Ручная корректировка
         if (isset($_POST['wctk_adjust_submit'])) {
@@ -72,12 +70,12 @@ final class WCTK_Admin {
 
         echo '<table class="form-table" role="presentation">';
         echo '<tr><th scope="row">' . esc_html__('Rate (base currency per 1 token)', WCTK_TEXT_DOMAIN) . '</th><td>';
-        echo '<input type="text" name="wctk_rate" value="' . esc_attr($rate) . '" />';
+        echo '<input type="text" name="' . esc_attr(WCTK_OPT_RATE) . '" value="' . esc_attr($rate) . '" />';
         echo '<p class="description">' . esc_html(sprintf(__('Example: 1 means 1 token = 1 %s', WCTK_TEXT_DOMAIN), get_woocommerce_currency())) . '</p>';
         echo '</td></tr>';
 
         echo '<tr><th scope="row">' . esc_html__('Top-up product ID', WCTK_TEXT_DOMAIN) . '</th><td>';
-        echo '<input type="number" name="wctk_topup_product_id" value="' . esc_attr((string) $product_id) . '" min="0" />';
+        echo '<input type="number" name="' . esc_attr(WCTK_OPT_TOPUP_PRODUCT_ID) . '" value="' . esc_attr((string) $product_id) . '" min="0" />';
         echo '<p class="description">' . esc_html__('Auto-created on activation. Keep this stable.', WCTK_TEXT_DOMAIN) . '</p>';
         echo '</td></tr>';
 

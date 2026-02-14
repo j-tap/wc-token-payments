@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) exit;
 
 require_once WCTK_PATH . 'includes/class-wctk-ledger.php';
 require_once WCTK_PATH . 'includes/class-wctk-balance.php';
+require_once WCTK_PATH . 'includes/class-wctk-shortcode-balance.php';
 require_once WCTK_PATH . 'includes/class-wctk-shortcode-buy.php';
 require_once WCTK_PATH . 'includes/class-wctk-account-token-balance.php';
 require_once WCTK_PATH . 'includes/class-wctk-gateway-tokens.php';
@@ -41,15 +42,15 @@ final class WCTK_Plugin {
     }
 
     private function init(): void {
-        // Настройки по умолчанию
         add_action('init', function (): void {
-            if (get_option('wctk_rate') === false) {
-                add_option('wctk_rate', '1');
+            if (get_option(WCTK_OPT_RATE) === false) {
+                add_option(WCTK_OPT_RATE, '1');
             }
         });
 
         add_action('init', [__CLASS__, 'load_textdomain'], 0);
 
+        WCTK_Shortcode_Balance::init();
         WCTK_Shortcode_Buy::init();
         WCTK_Account_Token_Balance::init();
         WCTK_Gateway_Tokens::init();
@@ -58,5 +59,10 @@ final class WCTK_Plugin {
         // Начисление токенов после оплаты top-up заказа
         add_action('woocommerce_order_status_completed', ['WCTK_Shortcode_Buy', 'handle_paid_order'], 10, 1);
         add_action('woocommerce_order_status_processing', ['WCTK_Shortcode_Buy', 'handle_paid_order'], 10, 1);
+    }
+
+    public static function get_rate(): float {
+        $rate = (float) get_option(WCTK_OPT_RATE, '1');
+        return $rate > 0 ? $rate : 1.0;
     }
 }

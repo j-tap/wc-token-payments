@@ -9,75 +9,112 @@ final class WCTK_Shortcode_Buy {
     }
 
     public static function rate(): float {
-        $rate = (float) get_option('wctk_rate', '1');
-        if ($rate <= 0) $rate = 1.0;
-        return $rate;
+        return WCTK_Plugin::get_rate();
     }
 
     public static function maybe_create_topup_product(): void {
         if (!function_exists('wc_get_product')) return;
 
-        $existing_id = (int) get_option('wctk_topup_product_id', 0);
+        $existing_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
         if ($existing_id > 0 && wc_get_product($existing_id)) return;
 
-        // Создаем скрытый виртуальный товар
         $product = new WC_Product_Simple();
         $product->set_name('Token top-up');
-        $product->set_status('private'); // не виден в каталоге
+        $product->set_status('private');
         $product->set_virtual(true);
         $product->set_downloadable(false);
         $product->set_catalog_visibility('hidden');
         $product->set_sold_individually(false);
-
-        // Цена будет перезаписана при создании заказа (order item total),
-        // но ставим дефолт, чтобы продукт был валидным:
         $product->set_regular_price('0');
 
         $product_id = $product->save();
-        update_option('wctk_topup_product_id', (int)$product_id);
+        update_option(WCTK_OPT_TOPUP_PRODUCT_ID, (int) $product_id);
     }
 
-    public static function shortcode(): string {
+    /**
+     * Вывод формы пополнения токенов (шорткод или вызов из кода).
+     * Без собственной стилизации, нейтральная разметка.
+     *
+     * @return string HTML формы.
+     */
+    public static function render_topup_form(): string {
         if (!is_user_logged_in()) {
             return '<p>' . esc_html__('You must be logged in to buy tokens.', WCTK_TEXT_DOMAIN) . '</p>';
         }
 
         $rate = self::rate();
         $currency = get_woocommerce_currency();
-        $balance = WCTK_Balance::get(get_current_user_id());
 
         ob_start();
         ?>
-        <div class="wctk-buy-tokens">
-            <p><strong><?php echo esc_html__('Your token balance:', WCTK_TEXT_DOMAIN); ?></strong> <?php echo esc_html((string) $balance); ?></p>
-
-            <form method="post">
-                <?php wp_nonce_field('wctk_buy_tokens', 'wctk_buy_nonce'); ?>
-                <label>
-                    <?php echo esc_html__('How many tokens to buy:', WCTK_TEXT_DOMAIN); ?>
-                    <input type="number" name="tokens_qty" min="1" step="1" required>
-                </label>
-
-                <p class="description">
-                    <?php
-                    echo esc_html(
-                        sprintf(
-                            /* translators: 1: rate number, 2: currency code */
-                            __('Rate: 1 token = %1$s %2$s', WCTK_TEXT_DOMAIN),
-                            rtrim(rtrim(number_format($rate, 2, '.', ''), '0'), '.'),
-                            $currency
-                        )
-                    );
-                    ?>
-                </p>
-
-                <button type="submit" name="wctk_buy_submit" value="1">
-                    <?php echo esc_html__('Create order', WCTK_TEXT_DOMAIN); ?>
-                </button>
-            </form>
-        </div>
+        <form method="post" class="wctk-topup-form">
+            <?php wp_nonce_field(WCTK_NONCE_ACTION_BUY_TOKENS, 'wctk_buy_nonce'); ?>
+            <p>
+                <label for="wctk_tokens_qty"><?php echo esc_html__('How many tokens to buy:', WCTK_TEXT_DOMAIN); ?></label>
+                <input id="wctk_tokens_qty" type="number" name="tokens_qty" min="1" step="1" required>
+            </p>
+            <p class="description">
+                <?php
+                echo esc_html(
+                    sprintf(
+                        /* translators: 1: rate number, 2: currency code */
+                        __('Rate: 1 token = %1$s %2$s', WCTK_TEXT_DOMAIN),
+                        rtrim(rtrim(number_format($rate, 2, '.', ''), '0'), '.'),
+                        $currency
+                    )
+                );
+                ?>
+            </p>
+            <p>
+                <button type="submit" name="wctk_buy_submit" value="1"><?php echo esc_html__('Create order', WCTK_TEXT_DOMAIN); ?></button>
+            </p>
+        </form>
         <?php
         return ob_get_clean();
+    }
+
+    /**
+     * Программное создание заказа на пополнение токенов.
+     *
+     * @param int $user_id   ID пользователя.
+     * @param int $tokens_qty Количество токенов.
+     * @return WC_Order|WP_Error Заказ или ошибка.
+     */
+    public static function create_topup_order(int $user_id, int $tokens_qty) {
+        if ($user_id <= 0 || $tokens_qty <= 0) {
+            return new WP_Error('wctk_invalid_args', __('Invalid user or token quantity.', WCTK_TEXT_DOMAIN));
+        }
+
+        self::maybe_create_topup_product();
+        $product_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
+        $product = wc_get_product($product_id);
+        if (!$product) {
+            return new WP_Error('wctk_no_product', __('Top-up product not found.', WCTK_TEXT_DOMAIN));
+        }
+
+        $rate = self::rate();
+        $total = $tokens_qty * $rate;
+
+        $order = wc_create_order(['customer_id' => $user_id]);
+        if (is_wp_error($order)) {
+            return $order;
+        }
+
+        $item_id = $order->add_product($product, 1, [
+            'subtotal' => $total,
+            'total' => $total,
+        ]);
+        wc_add_order_item_meta($item_id, 'tokens_qty', $tokens_qty, true);
+
+        $order->update_meta_data(WCTK_ORDER_META_IS_TOPUP, 'yes');
+        $order->update_meta_data(WCTK_ORDER_META_TOKENS_QTY, $tokens_qty);
+        $order->save();
+
+        return $order;
+    }
+
+    public static function shortcode(): string {
+        return self::render_topup_form();
     }
 
     public static function handle_form_submit(): void {
@@ -85,7 +122,7 @@ final class WCTK_Shortcode_Buy {
             return;
         }
 
-        if (!wp_verify_nonce(sanitize_text_field($_POST['wctk_buy_nonce'] ?? ''), 'wctk_buy_tokens')) {
+        if (!wp_verify_nonce(sanitize_text_field($_POST['wctk_buy_nonce'] ?? ''), WCTK_NONCE_ACTION_BUY_TOKENS)) {
             wp_die(esc_html__('Security check failed. Please try again.', WCTK_TEXT_DOMAIN), '', ['response' => 403]);
         }
 
@@ -94,32 +131,11 @@ final class WCTK_Shortcode_Buy {
             wp_die(esc_html__('Invalid token quantity.', WCTK_TEXT_DOMAIN), '', ['response' => 400]);
         }
 
-        self::maybe_create_topup_product();
-        $product_id = (int) get_option('wctk_topup_product_id', 0);
-        $product = wc_get_product($product_id);
-        if (!$product) {
-            wp_die(esc_html__('Top-up product not found.', WCTK_TEXT_DOMAIN), '', ['response' => 500]);
+        $order = self::create_topup_order(get_current_user_id(), $tokens_qty);
+        if (is_wp_error($order)) {
+            wp_die(esc_html($order->get_error_message()), '', ['response' => 500]);
         }
 
-        $rate = self::rate();
-        $total = $tokens_qty * $rate;
-
-        // Создаем заказ
-        $order = wc_create_order(['customer_id' => get_current_user_id()]);
-        $item_id = $order->add_product($product, 1, [
-            'subtotal' => $total,
-            'total' => $total,
-        ]);
-
-        // Сохраняем кол-во токенов в meta item
-        wc_add_order_item_meta($item_id, 'tokens_qty', $tokens_qty, true);
-
-        // Помечаем заказ как top-up (важно для изоляции и начисления)
-        $order->update_meta_data('_wctk_is_topup', 'yes');
-        $order->update_meta_data('_wctk_tokens_qty', $tokens_qty);
-        $order->save();
-
-        // Переходим на оплату стандартными методами Woo (любой платежный шлюз / мультивалюта)
         wp_safe_redirect($order->get_checkout_payment_url());
         exit;
     }
@@ -131,15 +147,14 @@ final class WCTK_Shortcode_Buy {
         $order = wc_get_order($order_id);
         if (!$order) return;
 
-        if ($order->get_meta('_wctk_is_topup') !== 'yes') return;
+        if ($order->get_meta(WCTK_ORDER_META_IS_TOPUP) !== 'yes') return;
 
-        // не начислять повторно
-        if ($order->get_meta('_wctk_tokens_credited') === 'yes') return;
+        if ($order->get_meta(WCTK_ORDER_META_TOKENS_CREDITED) === 'yes') return;
 
         $user_id = (int) $order->get_customer_id();
         if ($user_id <= 0) return;
 
-        $tokens_qty = (int) $order->get_meta('_wctk_tokens_qty');
+        $tokens_qty = (int) $order->get_meta(WCTK_ORDER_META_TOKENS_QTY);
         if ($tokens_qty <= 0) return;
 
         try {
@@ -148,7 +163,7 @@ final class WCTK_Shortcode_Buy {
                 'currency' => $order->get_currency(),
             ]);
 
-            $order->update_meta_data('_wctk_tokens_credited', 'yes');
+            $order->update_meta_data(WCTK_ORDER_META_TOKENS_CREDITED, 'yes');
             $order->add_order_note(sprintf('Credited %d tokens to user #%d', $tokens_qty, $user_id));
             $order->save();
         } catch (Throwable $e) {

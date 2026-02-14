@@ -25,18 +25,24 @@ WordPress plugin: token wallet for WooCommerce. Customers top up balance with mo
    ```
 2. In WordPress: **Plugins → Installed Plugins**, activate **WC Token Payments** (WooCommerce must be active).
 3. **WooCommerce → Settings → Token Payments**: set the rate (e.g. `1` = 1 token per 1 unit of store currency).
-4. Create a page and add the shortcode `[wctk_buy_tokens]` for customers to buy tokens.
+4. Create a page and add shortcodes `[wctk_balance]` and/or `[wctk_buy_tokens]` for customers to see balance and buy tokens.
 
 ## Usage
 
-### Shortcode
+### Shortcodes
 
-Place `[wctk_buy_tokens]` on any page. Logged-in users see:
+- **`[wctk_balance]`** — outputs the current user’s token balance only (guests see a message to log in).
+- **`[wctk_buy_tokens]`** — outputs the top-up form: “How many tokens to buy” field and “Create order” button. No custom styling (neutral markup).
 
-- Current token balance
-- Form: “How many tokens to buy” + button “Create order”
+You can use both on one page: `[wctk_balance]` and `[wctk_buy_tokens]`.
 
-Submitting creates a WooCommerce order (Token top-up); the customer pays on checkout with the usual methods. After payment (processing/completed), tokens are credited to their balance.
+Submitting the form creates a WooCommerce top-up order; the customer pays at checkout with any method. After the order reaches processing/completed, tokens are credited to their balance.
+
+### Public API (for themes / other plugins)
+
+- **`WCTK_Shortcode_Balance::render_balance(?int $user_id = null, string $wrapper_tag = 'p'): string`** — balance HTML; `$user_id = null` uses the current user.
+- **`WCTK_Shortcode_Buy::render_topup_form(): string`** — top-up form HTML.
+- **`WCTK_Shortcode_Buy::create_topup_order(int $user_id, int $tokens_qty): WC_Order|WP_Error`** — create a top-up order programmatically; returns the order or `WP_Error`. The caller is responsible for redirecting to payment if needed, e.g. `wp_safe_redirect($order->get_checkout_payment_url()); exit;`
 
 ### Pay with Tokens
 
@@ -61,21 +67,21 @@ To publish an update: create a new [Release](https://github.com/j-tap/wc-token-p
 
 ## Releasing a new version
 
-**Single source of version:** `readme.txt` — строка `Stable tag: X.Y.Z`. Её можно править вручную; в `wc-token-payments.php` версию подставляет скрипт при релизе.
+**Single source of version:** the `Stable tag: X.Y.Z` line in `readme.txt`. You can edit it manually; the release script injects this version into `wc-token-payments.php`.
 
 **Requirements:** [GitHub CLI](https://cli.github.com/) (`brew install gh`), `gh auth login`.
 
 ```bash
-./make-release.sh 0.2.0   # записать 0.2.0 в readme.txt и сделать релиз
-./make-release.sh         # взять версию из readme.txt и сделать релиз
+./make-release.sh 0.2.0   # write 0.2.0 to readme.txt and create the release
+./make-release.sh         # use version from readme.txt and create the release
 ```
 
-Скрипт:
-1. Берёт версию из `readme.txt` (или сначала пишет её туда, если передан аргумент)
-2. Подставляет её в `wc-token-payments.php`, собирает ZIP
-3. Коммитит изменения, создаёт тег `vX.Y.Z`, пушит, создаёт GitHub Release с ZIP
+The script:
+1. Reads the version from `readme.txt` (or writes it there first if an argument is passed)
+2. Injects it into `wc-token-payments.php` and builds the ZIP
+3. Commits changes, creates tag `vX.Y.Z`, pushes, and creates a GitHub Release with the ZIP
 
-Уже установленные копии плагина (с `vendor/`) увидят обновление в **Плагины** или **Обновления**.
+Installed copies of the plugin (with `vendor/`) will see the update under **Plugins** or **Updates**.
 
 ## Project structure
 
@@ -92,6 +98,7 @@ wc-token-payments/
     ├── class-wctk-plugin.php
     ├── class-wctk-ledger.php
     ├── class-wctk-balance.php
+    ├── class-wctk-shortcode-balance.php
     ├── class-wctk-shortcode-buy.php
     ├── class-wctk-account-token-balance.php
     ├── class-wctk-gateway-tokens.php

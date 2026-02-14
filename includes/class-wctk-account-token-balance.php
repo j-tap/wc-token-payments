@@ -22,9 +22,7 @@ final class WCTK_Account_Token_Balance {
 
     public static function render(): void {
         $user_id = get_current_user_id();
-        $balance = WCTK_Balance::get($user_id);
-
-        echo '<h3>' . esc_html__('Your token balance:', WCTK_TEXT_DOMAIN) . ' ' . esc_html((string) $balance) . '</h3>';
+        echo WCTK_Shortcode_Balance::render_balance($user_id, 'h3');
 
         $rows = WCTK_Ledger::get_by_user($user_id, 50, 0);
         if (!$rows) {

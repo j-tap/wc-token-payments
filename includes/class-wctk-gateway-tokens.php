@@ -34,7 +34,7 @@ final class WCTK_Gateway_Tokens {
             return $gateways;
         }
 
-        $topup_id = (int) get_option('wctk_topup_product_id', 0);
+        $topup_id = (int) get_option(WCTK_OPT_TOPUP_PRODUCT_ID, 0);
         if ($topup_id > 0 && WC()->cart) {
             foreach (WC()->cart->get_cart() as $cart_item) {
                 if (!empty($cart_item['product_id']) && (int)$cart_item['product_id'] === $topup_id) {
