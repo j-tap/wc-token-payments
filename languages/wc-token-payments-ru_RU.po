@@ -198,3 +198,12 @@ msgstr "Путь (например /checkout/) или полный URL. Оста
 
 msgid "Path (e.g. /thanks/?status=successful) or full URL. Same page as after normal payment. You can use {order_id} in the path."
 msgstr "Путь (например /thanks/?status=successful) или полный URL. Та же страница, что и после обычной оплаты. В пути можно использовать {order_id}."
+
+msgid "Top up"
+msgstr "Пополнить"
+
+msgid "Top-up page (insufficient balance)"
+msgstr "Страница пополнения (при недостатке токенов)"
+
+msgid "Path or full URL for the \"Top up\" button when the customer does not have enough tokens on checkout."
+msgstr "Путь или URL для кнопки «Пополнить», когда на оформлении заказа у покупателя недостаточно токенов."

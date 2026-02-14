@@ -55,6 +55,11 @@ final class WCTK_Admin {
             'type'              => 'string',
             'sanitize_callback' => [__CLASS__, 'sanitize_path_or_url'],
         ]);
+
+        register_setting('wctk_settings', WCTK_OPT_TOPUP_PAGE_PATH, [
+            'type'              => 'string',
+            'sanitize_callback' => [__CLASS__, 'sanitize_path_or_url'],
+        ]);
     }
 
     public static function render_page(): void {
@@ -121,6 +126,12 @@ final class WCTK_Admin {
         echo '<tr class="wctk-settings-form__row wctk-settings-form__row--thankyou"><th scope="row">' . esc_html__('Thank you page (token payment)', WCTK_TEXT_DOMAIN) . '</th><td>';
         echo '<input type="text" name="' . esc_attr(WCTK_OPT_TOKEN_PAYMENT_THANKYOU_URL) . '" value="' . esc_attr($thankyou_url) . '" class="wctk-settings-form__input regular-text" placeholder="/thanks/?status=successful" />';
         echo '<p class="wctk-settings-form__hint description">' . esc_html__('Path (e.g. /thanks/?status=successful) or full URL. Same page as after normal payment. You can use {order_id} in the path.', WCTK_TEXT_DOMAIN) . '</p>';
+        echo '</td></tr>';
+
+        $topup_page = get_option(WCTK_OPT_TOPUP_PAGE_PATH, '');
+        echo '<tr class="wctk-settings-form__row wctk-settings-form__row--topup-page"><th scope="row">' . esc_html__('Top-up page (insufficient balance)', WCTK_TEXT_DOMAIN) . '</th><td>';
+        echo '<input type="text" name="' . esc_attr(WCTK_OPT_TOPUP_PAGE_PATH) . '" value="' . esc_attr($topup_page) . '" class="wctk-settings-form__input regular-text" placeholder="/my-account/edit-account/" />';
+        echo '<p class="wctk-settings-form__hint description">' . esc_html__('Path or full URL for the "Top up" button when the customer does not have enough tokens on checkout.', WCTK_TEXT_DOMAIN) . '</p>';
         echo '</td></tr>';
 
         echo '</table>';

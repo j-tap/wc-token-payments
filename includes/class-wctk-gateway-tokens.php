@@ -176,6 +176,18 @@ final class WCTK_Gateway_Tokens {
                         $balance
                     )); ?>
                 </p>
+                <?php
+                $topup_path = trim((string) get_option(WCTK_OPT_TOPUP_PAGE_PATH, ''));
+                if ($topup_path === '') {
+                    $topup_path = '/my-account/edit-account/';
+                }
+                $topup_url = WCTK_Plugin::resolve_redirect_url($topup_path);
+                if ($topup_url !== ''):
+                ?>
+                <a href="<?php echo esc_url($topup_url); ?>" class="wctk-checkout-pay__topup-link button" style="margin-top: 8px; padding: 10px 24px; font-size: 1em; display: inline-block;">
+                    <?php echo esc_html__('Top up', WCTK_TEXT_DOMAIN); ?>
+                </a>
+                <?php endif; ?>
             <?php endif; ?>
 
             <?php if ($enough): ?>

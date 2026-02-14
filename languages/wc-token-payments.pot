@@ -196,3 +196,12 @@ msgstr ""
 
 msgid "Path (e.g. /thanks/?status=successful) or full URL. Same page as after normal payment. You can use {order_id} in the path."
 msgstr ""
+
+msgid "Top up"
+msgstr ""
+
+msgid "Top-up page (insufficient balance)"
+msgstr ""
+
+msgid "Path or full URL for the \"Top up\" button when the customer does not have enough tokens on checkout."
+msgstr ""
