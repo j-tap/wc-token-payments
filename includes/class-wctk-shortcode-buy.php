@@ -198,7 +198,8 @@ final class WCTK_Shortcode_Buy {
             wp_die(esc_html($order->get_error_message()), '', ['response' => 500]);
         }
 
-        wp_safe_redirect($order->get_checkout_payment_url());
+        $redirect_url = (string) apply_filters('wctk_topup_order_redirect_url', $order->get_checkout_payment_url(), $order);
+        wp_safe_redirect($redirect_url !== '' ? $redirect_url : $order->get_checkout_payment_url());
         exit;
     }
 

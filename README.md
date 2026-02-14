@@ -57,6 +57,8 @@ Submitting the form creates a WooCommerce top-up order; the customer pays at che
 
 - **`WCTK_Shortcode_Buy::create_topup_order(int $user_id, int $tokens_qty, float $order_total = 0, string $order_currency = ''): WC_Order|WP_Error`** — creates a top-up order. If `$order_total` and `$order_currency` are set, the order is created for that amount in that currency; otherwise total = `tokens_qty * rate` in default currency. Redirect to payment is up to the caller, e.g. `wp_safe_redirect($order->get_checkout_payment_url()); exit;`
 
+After the form is submitted, the plugin redirects to **WooCommerce’s payment URL** for that order: `$order->get_checkout_payment_url()`, which uses the **Checkout** page from **WooCommerce → Settings → Advanced → Page setup**. If that order-pay page is blank (theme/plugin conflict), use the filter **`wctk_topup_order_redirect_url`** (args: `$url`, `$order`) to redirect to a custom URL instead.
+
 **Currency conversion (for multi-currency)**
 
 - **`WCTK_Shortcode_Buy::get_current_currency(): string`** — current currency code (filter: `wctk_current_currency`).
